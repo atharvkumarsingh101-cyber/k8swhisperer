@@ -1,154 +1,185 @@
 # agent/detector.py
+import subprocess
+import json
 from agent.state import Anomaly
 
+
+def get_pod_status(pod: dict) -> dict:
+    """Extract key status fields from a pod JSON object."""
+    metadata = pod.get("metadata", {})
+    status = pod.get("status", {})
+    container_statuses = status.get("containerStatuses", [])
+
+    name = metadata.get("name", "unknown")
+    namespace = metadata.get("namespace", "default")
+    phase = status.get("phase", "Unknown")
+
+    restart_count = 0
+    waiting_reason = ""
+    waiting_message = ""
+
+    for cs in container_statuses:
+        restart_count += cs.get("restartCount", 0)
+        state = cs.get("state", {})
+        waiting = state.get("waiting", {})
+        if waiting:
+            waiting_reason = waiting.get("reason", "")
+            waiting_message = waiting.get("message", "")
+
+    return {
+        "name": name,
+        "namespace": namespace,
+        "phase": phase,
+        "restart_count": restart_count,
+        "waiting_reason": waiting_reason,
+        "waiting_message": waiting_message,
+    }
+
+
 def detect_failures(pods_json: dict) -> list:
+    """
+    Detect pod-level failures from kubectl get pods -o json output.
+    Returns a list of Anomaly objects.
+    """
     anomalies = []
+    items = pods_json.get("items", []) if isinstance(pods_json, dict) else []
 
-    for pod in pods_json.get("items", []):
-        name      = pod["metadata"]["name"]
-        namespace = pod["metadata"]["namespace"]
-        phase     = pod["status"].get("phase", "Unknown")
+    for pod in items:
+        info = get_pod_status(pod)
+        name = info["name"]
+        namespace = info["namespace"]
+        phase = info["phase"]
+        restart_count = info["restart_count"]
+        waiting_reason = info["waiting_reason"]
+        waiting_message = info["waiting_message"]
 
-        container_statuses = pod["status"].get("containerStatuses", [])
-        init_statuses      = pod["status"].get("initContainerStatuses", [])
-
-        for cs in container_statuses + init_statuses:
-            state         = cs.get("state", {})
-            last_state    = cs.get("lastState", {})
-            restart_count = cs.get("restartCount", 0)
-            waiting       = state.get("waiting", {})
-
-            # CrashLoopBackOff
-            if waiting.get("reason") == "CrashLoopBackOff":
-                anomalies.append(Anomaly(
-                    pod=name, namespace=namespace,
-                    failure_type="CrashLoopBackOff",
-                    severity="HIGH" if restart_count > 5 else "MEDIUM",
-                    confidence=0.95,
-                    message=f"Pod has restarted {restart_count} times and keeps crashing",
-                    restart_count=restart_count
-                ))
-
-            # ImagePullBackOff
-            if waiting.get("reason") in ["ImagePullBackOff", "ErrImagePull"]:
-                anomalies.append(Anomaly(
-                    pod=name, namespace=namespace,
-                    failure_type="ImagePullBackOff",
-                    severity="MEDIUM",
-                    confidence=0.99,
-                    message=waiting.get("message", "Cannot pull container image"),
-                    restart_count=restart_count
-                ))
-
-            # OOMKilled
-            for term_state in [last_state.get("terminated", {}),
-                               state.get("terminated", {})]:
-                if term_state.get("reason") == "OOMKilled":
-                    anomalies.append(Anomaly(
-                        pod=name, namespace=namespace,
-                        failure_type="OOMKilled",
-                        severity="HIGH",
-                        confidence=0.99,
-                        message="Container exceeded memory limit (exit code 137)",
-                        restart_count=restart_count
-                    ))
-                    break
-
-        # Pending Pod
-        if phase == "Pending" and len(container_statuses) == 0:
-            reason = "Pod cannot be scheduled"
-            for cond in pod["status"].get("conditions", []):
-                if cond.get("type") == "PodScheduled" and cond.get("status") == "False":
-                    reason = cond.get("message", reason)
-                    break
+        # CrashLoopBackOff
+        if waiting_reason == "CrashLoopBackOff" or restart_count >= 5:
             anomalies.append(Anomaly(
-                pod=name, namespace=namespace,
+                pod=name,
+                namespace=namespace,
+                failure_type="CrashLoopBackOff",
+                severity="HIGH",
+                confidence=0.95,
+                message=waiting_message or f"Pod has restarted {restart_count} times",
+                restart_count=restart_count,
+            ))
+
+        # ImagePullBackOff
+        elif waiting_reason in ("ImagePullBackOff", "ErrImagePull"):
+            anomalies.append(Anomaly(
+                pod=name,
+                namespace=namespace,
+                failure_type="ImagePullBackOff",
+                severity="HIGH",
+                confidence=0.99,
+                message=waiting_message or "Image pull failed",
+                restart_count=restart_count,
+            ))
+
+        # OOMKilled
+        elif waiting_reason == "OOMKilled":
+            anomalies.append(Anomaly(
+                pod=name,
+                namespace=namespace,
+                failure_type="OOMKilled",
+                severity="HIGH",
+                confidence=0.99,
+                message="Pod was killed due to out-of-memory",
+                restart_count=restart_count,
+            ))
+
+        # Pending (stuck)
+        elif phase == "Pending":
+            anomalies.append(Anomaly(
+                pod=name,
+                namespace=namespace,
                 failure_type="Pending",
                 severity="MEDIUM",
                 confidence=0.90,
-                message=reason,
-                restart_count=0
+                message="Pod is stuck in Pending state",
+                restart_count=0,
             ))
 
-        # Evicted Pod
-        if pod["status"].get("reason") == "Evicted":
-            anomalies.append(Anomaly(
-                pod=name, namespace=namespace,
-                failure_type="Evicted",
-                severity="LOW",
-                confidence=0.99,
-                message=pod["status"].get("message", "Pod was evicted due to node pressure"),
-                restart_count=0
-            ))
-
-    # De-duplicate
-    seen, unique = set(), []
-    for a in anomalies:
-        key = f"{a.pod}:{a.namespace}:{a.failure_type}"
-        if key not in seen:
-            seen.add(key)
-            unique.append(a)
-    return unique
-
-def detect_node_issues(nodes: list) -> list:
-    anomalies = []
-    for node in nodes:
-        name = node["metadata"]["name"]
-        for cond in node["status"].get("conditions", []):
-            if cond.get("type") == "Ready" and cond.get("status") == "False":
+        # Evicted
+        elif phase == "Failed":
+            reason = pod.get("status", {}).get("reason", "")
+            if reason == "Evicted":
                 anomalies.append(Anomaly(
-                    pod=name, namespace="cluster",
+                    pod=name,
+                    namespace=namespace,
+                    failure_type="Evicted",
+                    severity="MEDIUM",
+                    confidence=0.95,
+                    message="Pod was evicted",
+                    restart_count=0,
+                ))
+
+    return anomalies
+
+
+def detect_node_issues(nodes_list: list) -> list:
+    """
+    Detect node-level issues like NotReady nodes.
+    Expects a list of node objects (the 'items' array from kubectl get nodes -o json).
+    """
+    issues = []
+    if not isinstance(nodes_list, list):
+        return issues
+
+    for node in nodes_list:
+        if not isinstance(node, dict):
+            continue
+        name = node.get("metadata", {}).get("name", "unknown")
+        conditions = node.get("status", {}).get("conditions", [])
+        for condition in conditions:
+            if condition.get("type") == "Ready" and condition.get("status") != "True":
+                issues.append(Anomaly(
+                    pod=name,
+                    namespace="kube-system",
                     failure_type="NodeNotReady",
                     severity="CRITICAL",
                     confidence=0.99,
-                    message=cond.get("message", "Node is not ready"),
-                    restart_count=0
+                    message=f"Node {name} is NotReady: {condition.get('message', '')}",
+                    restart_count=0,
                 ))
-    return anomalies
+    return issues
+
 
 def detect_deployment_stall(deployments_json: dict) -> list:
-    anomalies = []
-    for dep in deployments_json.get("items", []):
-        name      = dep["metadata"]["name"]
-        namespace = dep["metadata"]["namespace"]
-        status    = dep.get("status", {})
-        spec      = dep.get("spec", {})
+    """
+    Detect deployments that are stalled (0 ready pods out of desired).
+    Expects the full JSON from kubectl get deployments -A -o json.
+    """
+    stalls = []
+    items = deployments_json.get("items", []) if isinstance(deployments_json, dict) else []
 
-        desired = spec.get("replicas", 0)
-        updated = status.get("updatedReplicas", 0)
-        ready   = status.get("readyReplicas", 0)
+    for dep in items:
+        if not isinstance(dep, dict):
+            continue
+        name = dep.get("metadata", {}).get("name", "unknown")
+        namespace = dep.get("metadata", {}).get("namespace", "default")
+        spec = dep.get("spec", {})
+        status = dep.get("status", {})
 
-        if desired > 0 and (updated != desired or ready != desired):
-            anomalies.append(Anomaly(
-                pod=name, namespace=namespace,
-                failure_type="DeploymentStalled",
+        desired = spec.get("replicas", 1)
+        ready = status.get("readyReplicas", 0)
+
+        if desired and desired > 0 and ready == 0:
+            stalls.append(Anomaly(
+                pod=name,
+                namespace=namespace,
+                failure_type="DeploymentStall",
                 severity="HIGH",
                 confidence=0.85,
-                message=f"Deployment has {ready}/{desired} ready replicas, {updated} updated",
-                restart_count=0
+                message=f"Deployment {name} has 0/{desired} pods ready",
+                restart_count=0,
             ))
-    return anomalies
+    return stalls
 
-def predict_upcoming_crashloop(pods_json: dict, history: dict) -> list:
-    warnings = []
-    for pod in pods_json.get("items", []):
-        name = pod["metadata"]["name"]
-        for cs in pod["status"].get("containerStatuses", []):
-            current = cs.get("restartCount", 0)
-            past    = history.get(name, [])
 
-            if len(past) >= 2 and past[-1] > past[-2] and current > past[-1]:
-                warnings.append(Anomaly(
-                    pod=name,
-                    namespace=pod["metadata"]["namespace"],
-                    failure_type="PredictedCrashLoop",
-                    severity="MEDIUM",
-                    confidence=0.72,
-                    message=f"Restart count rising: {past[-2]}→{past[-1]}→{current}. CrashLoop likely.",
-                    restart_count=current
-                ))
-    def detect_cpu_throttling(pods_json: dict) -> list:
-    """Detect pods with CPU throttling (requires metrics-server)."""
+def detect_cpu_throttling(pods_json: dict) -> list:
+    """Detect pods with high CPU usage using kubectl top (requires metrics-server)."""
     warnings = []
     try:
         result = subprocess.run(
@@ -169,10 +200,10 @@ def predict_upcoming_crashloop(pods_json: dict, history: dict) -> list:
                             severity="MEDIUM",
                             confidence=0.75,
                             message=f"Pod using {cpu_val}m CPU — likely throttling",
-                            restart_count=0
+                            restart_count=0,
                         ))
                 except ValueError:
                     pass
-    except Exception as e:
+    except Exception:
         pass
     return warnings

@@ -15,15 +15,18 @@ def get_or_create_keypair() -> Keypair:
     print(f"[STELLAR] New keypair created!")
     print(f"[STELLAR] Public key: {kp.public_key}")
     print(f"[STELLAR] Secret key: {kp.secret}")
-    print(f"[STELLAR] Fund at: https://friendbot.stellar.org?addr={kp.public_key}")
     return kp
 
 
 def fund_account(public_key: str):
-    import urllib.request
+    import urllib.request, ssl
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
     url = f"https://friendbot.stellar.org?addr={public_key}"
     try:
-        urllib.request.urlopen(url)
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        urllib.request.urlopen(req, context=ctx)
         print(f"[STELLAR] Account funded via Friendbot")
         time.sleep(3)
     except Exception as e:
@@ -31,10 +34,6 @@ def fund_account(public_key: str):
 
 
 def record_approval_on_chain(pod: str, action: str, approved: bool, keypair: Keypair) -> str:
-    """
-    Record a HITL approval decision on the Stellar testnet blockchain.
-    Returns the transaction hash.
-    """
     server = Server(HORIZON_URL)
 
     try:
@@ -42,11 +41,16 @@ def record_approval_on_chain(pod: str, action: str, approved: bool, keypair: Key
     except Exception:
         print("[STELLAR] Account not found, funding via Friendbot...")
         fund_account(keypair.public_key)
-        account = server.load_account(keypair.public_key)
+        try:
+            account = server.load_account(keypair.public_key)
+        except Exception as e:
+            print(f"[STELLAR] Could not load account: {e}")
+            return ""
 
     decision = "APPROVED" if approved else "REJECTED"
     memo_text = f"{decision}:{pod[:10]}:{action[:8]}"[:28]
 
+    # Send 1 XLM to self — simplest valid transaction, just carries the memo
     tx = (
         TransactionBuilder(
             source_account=account,
@@ -54,9 +58,10 @@ def record_approval_on_chain(pod: str, action: str, approved: bool, keypair: Key
             base_fee=100,
         )
         .add_text_memo(memo_text)
-        .append_change_trust_op(
-            asset=Asset("HITL", keypair.public_key),
-            limit="1000"
+        .append_payment_op(
+            destination=keypair.public_key,
+            asset=Asset.native(),
+            amount="1",
         )
         .set_timeout(30)
         .build()

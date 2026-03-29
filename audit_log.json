@@ -140,5 +140,377 @@
     "summary": "Result: ",
     "data": {},
     "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:14.097486Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:15.286761Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because the Docker image \"thisrepo/doesnotexist:v999\" does not exist or is inaccessible, resulting in a continuous image pull backoff.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because the Docker image \"thisrepo/doesnotexist:v999\" does not exist or is inaccessible, resulting in a continuous image pull backoff.",
+      "fix": "Update the pod's image to a valid one using the command `kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:latest\"}]}}'` or modify the deployment configuration to use a correct image.",
+      "severity": "HIGH",
+      "confidence": 0.99,
+      "explanation": "The error message clearly indicates that the image pull is failing due to the non-existence of the specified repository or a lack of permissions to access it. The pod is unable to start because it cannot pull the required image, resulting in a high-severity failure. To resolve this issue, the image should be updated to a valid and accessible one.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because the Docker image \"thisrepo/doesnotexist:v999\" does not exist or is inaccessible, resulting in a continuous image pull backoff.\nFIX: Update the pod's image to a valid one using the command `kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:latest\"}]}}'` or modify the deployment configuration to use a correct image.\nSEVERITY: HIGH\nCONFIDENCE: 0.99\nEXPLANATION: The error message clearly indicates that the image pull is failing due to the non-existence of the specified repository or a lack of permissions to access it. The pod is unable to start because it cannot pull the required image, resulting in a high-severity failure. To resolve this issue, the image should be updated to a valid and accessible one."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:15.299514Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:15.306795Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:21.631290Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "APPROVED",
+    "data": {
+      "choice": "approve",
+      "stellar_tx_hash": ""
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:21.641913Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: True",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:21.663429Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "imagepull-pod",
+    "summary": "Action: alert_human | Blast: LOW",
+    "data": {
+      "action": "alert_human",
+      "parameters": {
+        "fix": "Update the pod's image to a valid one using the command `kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:latest\"}]}}'` or modify the deployment configuration to use a correct image."
+      },
+      "confidence": 0.99
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:21.679539Z",
+    "event_type": "HUMAN_ALERT",
+    "pod": "imagepull-pod",
+    "summary": "[ALERT] Human intervention required for imagepull-pod. Fix: Update the pod's image to a valid one using the command `kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:latest\"}]}}'` or modify the deployment configuration to use a correct image.",
+    "data": {
+      "fix": "Update the pod's image to a valid one using the command `kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:latest\"}]}}'` or modify the deployment configuration to use a correct image."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:53:21.700554Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: alerted",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:36.564223Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:37.882724Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\", resulting in a pull access denied error.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\", resulting in a pull access denied error.",
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "explanation": "The error message clearly indicates that the repository does not exist or may require authentication, and the pod is unable to pull the image, causing the ImagePullBackOff failure. The pod's restart count is 0, indicating that it hasn't been restarted yet, and the events log shows repeated attempts to pull the image, resulting in failures. To fix this, the image name in the pod configuration needs to be updated to a valid one.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\", resulting in a pull access denied error.\nFIX: kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest\nSEVERITY: HIGH\nCONFIDENCE: 0.9\nEXPLANATION: The error message clearly indicates that the repository does not exist or may require authentication, and the pod is unable to pull the image, causing the ImagePullBackOff failure. The pod's restart count is 0, indicating that it hasn't been restarted yet, and the events log shows repeated attempts to pull the image, resulting in failures. To fix this, the image name in the pod configuration needs to be updated to a valid one."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:37.892495Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:37.901074Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:52.604853Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "APPROVED",
+    "data": {
+      "choice": "approve",
+      "stellar_tx_hash": ""
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:52.611036Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: True",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:52.637937Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "imagepull-pod",
+    "summary": "Action: alert_human | Blast: LOW",
+    "data": {
+      "action": "alert_human",
+      "parameters": {
+        "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest"
+      },
+      "confidence": 0.9
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:52.659145Z",
+    "event_type": "HUMAN_ALERT",
+    "pod": "imagepull-pod",
+    "summary": "[ALERT] Human intervention required for imagepull-pod. Fix: kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest",
+    "data": {
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T15:59:52.680090Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: alerted",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:34.282163Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:35.900595Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it is trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which does not exist in the registry, resulting in a pull access denied error.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it is trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which does not exist in the registry, resulting in a pull access denied error.",
+      "fix": "kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"<existing-image-name>\"}]}}'",
+      "severity": "HIGH",
+      "confidence": 0.99,
+      "explanation": "The error message clearly indicates that the image does not exist or may require authentication, and the pod is continuously retrying to pull the image, resulting in a Back-off pulling state. The issue can be resolved by updating the pod's container image to a valid existing one. The high severity is due to the pod being unable to start and provide its intended service, causing potential disruptions to the application.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it is trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which does not exist in the registry, resulting in a pull access denied error.\nFIX: kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"<existing-image-name>\"}]}}'\nSEVERITY: HIGH\nCONFIDENCE: 0.99\nEXPLANATION: The error message clearly indicates that the image does not exist or may require authentication, and the pod is continuously retrying to pull the image, resulting in a Back-off pulling state. The issue can be resolved by updating the pod's container image to a valid existing one. The high severity is due to the pod being unable to start and provide its intended service, causing potential disruptions to the application."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:35.908967Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:35.917356Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:44.916986Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "APPROVED",
+    "data": {
+      "choice": "approve",
+      "stellar_tx_hash": ""
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:44.923399Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: True",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:44.945126Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "imagepull-pod",
+    "summary": "Action: alert_human | Blast: LOW",
+    "data": {
+      "action": "alert_human",
+      "parameters": {
+        "fix": "kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"<existing-image-name>\"}]}}'"
+      },
+      "confidence": 0.99
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:44.962094Z",
+    "event_type": "HUMAN_ALERT",
+    "pod": "imagepull-pod",
+    "summary": "[ALERT] Human intervention required for imagepull-pod. Fix: kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"<existing-image-name>\"}]}}'",
+    "data": {
+      "fix": "kubectl patch pod imagepull-pod -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"<existing-image-name>\"}]}}'"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:01:44.978872Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: alerted",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:03:49.934548Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:03:51.446000Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it's trying to pull an image from a non-existent repository \"thisrepo/doesnotexist\" with tag \"v999\", resulting in a pull access denied error.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it's trying to pull an image from a non-existent repository \"thisrepo/doesnotexist\" with tag \"v999\", resulting in a pull access denied error.",
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:tag",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "explanation": "The error message indicates that the repository does not exist, which is causing the image pull to fail, and the pod to restart indefinitely, resulting in an ImagePullBackOff failure type. The kubelet is unable to pull the image, leading to a back-off pulling state. To fix this, the image name in the pod's configuration needs to be updated to a valid repository and tag.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it's trying to pull an image from a non-existent repository \"thisrepo/doesnotexist\" with tag \"v999\", resulting in a pull access denied error.\nFIX: kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:tag\nSEVERITY: HIGH\nCONFIDENCE: 0.9\nEXPLANATION: The error message indicates that the repository does not exist, which is causing the image pull to fail, and the pod to restart indefinitely, resulting in an ImagePullBackOff failure type. The kubelet is unable to pull the image, leading to a back-off pulling state. To fix this, the image name in the pod's configuration needs to be updated to a valid repository and tag."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:03:51.455737Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:03:51.464169Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:04:01.305541Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "APPROVED",
+    "data": {
+      "choice": "approve",
+      "stellar_tx_hash": "a0bddf17941ea26b7dc695cd8f1903576cf1651ef27891f5afca97f4adbb0750"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:04:01.312681Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: True",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:04:01.335227Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "imagepull-pod",
+    "summary": "Action: alert_human | Blast: LOW",
+    "data": {
+      "action": "alert_human",
+      "parameters": {
+        "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:tag"
+      },
+      "confidence": 0.9
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:04:01.347207Z",
+    "event_type": "HUMAN_ALERT",
+    "pod": "imagepull-pod",
+    "summary": "[ALERT] Human intervention required for imagepull-pod. Fix: kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:tag",
+    "data": {
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:tag"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T16:04:01.362775Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: alerted",
+    "data": {},
+    "stellar_tx_hash": ""
   }
 ]
