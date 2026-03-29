@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: imagepull-pod
+  labels:
+    app: imagepull-pod
+    scenario: imagepullbackoff
+spec:
+  containers:
+  - name: bad-image
+    image: thisrepo/doesnotexist:v999
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "100m"
+  restartPolicy: Always

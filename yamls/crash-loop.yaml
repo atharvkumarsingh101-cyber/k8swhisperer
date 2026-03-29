@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: crash-loop-pod
+  labels:
+    app: crash-loop
+    scenario: crashloop
+spec:
+  containers:
+  - name: crasher
+    image: busybox
+    command: ["sh", "-c", "echo 'App starting...'; sleep 2; echo 'FATAL: config not found'; exit 1"]
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "100m"
+  restartPolicy: Always

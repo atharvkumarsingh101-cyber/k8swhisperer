@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: evicted-pod
+  labels:
+    app: evicted-pod
+    scenario: evicted
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    resources:
+      limits:
+        memory: "64Mi"
+        cpu: "100m"
+  restartPolicy: Never
