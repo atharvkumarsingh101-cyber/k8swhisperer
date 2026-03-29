@@ -71,3 +71,27 @@ def get_deployments(namespace="default"):
         return json.loads(result.stdout)
     except:
         return {"items": []}
+def get_all_nodes() -> dict:
+    """Get all nodes in the cluster."""
+    try:
+        result = subprocess.run(
+            ["kubectl", "get", "nodes", "-o", "json"],
+            capture_output=True, text=True, timeout=30
+        )
+        return json.loads(result.stdout) if result.returncode == 0 else {"items": []}
+    except Exception as e:
+        print(f"[ERROR] get_all_nodes: {e}")
+        return {"items": []}
+
+
+def get_all_deployments() -> dict:
+    """Get all deployments across all namespaces."""
+    try:
+        result = subprocess.run(
+            ["kubectl", "get", "deployments", "-A", "-o", "json"],
+            capture_output=True, text=True, timeout=30
+        )
+        return json.loads(result.stdout) if result.returncode == 0 else {"items": []}
+    except Exception as e:
+        print(f"[ERROR] get_all_deployments: {e}")
+        return {"items": []}
