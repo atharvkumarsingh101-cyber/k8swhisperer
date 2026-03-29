@@ -1,7 +1,5 @@
-# agent/graph.py
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
-from langgraph.types import interrupt
 from agent.state import ClusterState
 from agent.monitor import get_all_pods, get_all_nodes, get_all_deployments
 from agent.detector import detect_failures, detect_node_issues, detect_deployment_stall
@@ -15,8 +13,7 @@ def observe_node(state):
     pods = get_all_pods()
     nodes = get_all_nodes()
     deps = get_all_deployments()
-    new_event = {"pods": pods, "nodes": nodes, "deployments": deps}
-    return {"events": [new_event]}
+    return {"events": [{"pods": pods, "nodes": nodes, "deployments": deps}]}
 
 
 def detect_node(state):
@@ -52,16 +49,16 @@ def safety_gate_node(state):
 
 
 def hitl_wait_node(state):
-    print("[GRAPH] hitl_wait_node - waiting for human approval...")
+    print("[GRAPH] hitl_wait_node - opening browser for approval...")
     plan = state["plan"]
     log_event("HITL_REQUESTED", plan.target_pod, "Waiting for approval: " + plan.action, {})
-    decision = interrupt({
+    from hitl_server import request_approval
+    approved = request_approval("run-1", {
         "pod": plan.target_pod,
         "action": plan.action,
         "blast_radius": plan.blast_radius,
         "diagnosis": state["diagnosis"],
     })
-    approved = decision.get("approved", False) if isinstance(decision, dict) else False
     log_event("HITL_DECISION", plan.target_pod, "Decision: " + str(approved), {})
     return {"approved": approved}
 
@@ -99,7 +96,6 @@ def route_after_hitl(state):
 
 def build_graph():
     builder = StateGraph(ClusterState)
-
     builder.add_node("observe", observe_node)
     builder.add_node("detect", detect_node)
     builder.add_node("diagnose", diagnose_node)
@@ -107,22 +103,14 @@ def build_graph():
     builder.add_node("hitl_wait", hitl_wait_node)
     builder.add_node("execute", execute_node)
     builder.add_node("done", done_node)
-
     builder.set_entry_point("observe")
     builder.add_edge("observe", "detect")
-    builder.add_conditional_edges(
-        "detect", route_after_detect, {"diagnose": "diagnose", "done": "done"}
-    )
+    builder.add_conditional_edges("detect", route_after_detect, {"diagnose": "diagnose", "done": "done"})
     builder.add_edge("diagnose", "safety_gate")
-    builder.add_conditional_edges(
-        "safety_gate", route_after_safety, {"execute": "execute", "hitl_wait": "hitl_wait"}
-    )
-    builder.add_conditional_edges(
-        "hitl_wait", route_after_hitl, {"execute": "execute", "done": "done"}
-    )
+    builder.add_conditional_edges("safety_gate", route_after_safety, {"execute": "execute", "hitl_wait": "hitl_wait"})
+    builder.add_conditional_edges("hitl_wait", route_after_hitl, {"execute": "execute", "done": "done"})
     builder.add_edge("execute", "done")
     builder.add_edge("done", END)
-
     memory = MemorySaver()
     return builder.compile(checkpointer=memory)
 
