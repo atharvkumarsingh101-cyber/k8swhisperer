@@ -147,4 +147,32 @@ def predict_upcoming_crashloop(pods_json: dict, history: dict) -> list:
                     message=f"Restart count rising: {past[-2]}→{past[-1]}→{current}. CrashLoop likely.",
                     restart_count=current
                 ))
+    def detect_cpu_throttling(pods_json: dict) -> list:
+    """Detect pods with CPU throttling (requires metrics-server)."""
+    warnings = []
+    try:
+        result = subprocess.run(
+            ["kubectl", "top", "pods", "-A", "--no-headers"],
+            capture_output=True, text=True, timeout=15
+        )
+        for line in result.stdout.strip().split("\n"):
+            parts = line.split()
+            if len(parts) >= 3:
+                cpu_str = parts[2].replace("m", "")
+                try:
+                    cpu_val = int(cpu_str)
+                    if cpu_val > 800:
+                        warnings.append(Anomaly(
+                            pod=parts[1],
+                            namespace=parts[0],
+                            failure_type="CPUThrottling",
+                            severity="MEDIUM",
+                            confidence=0.75,
+                            message=f"Pod using {cpu_val}m CPU — likely throttling",
+                            restart_count=0
+                        ))
+                except ValueError:
+                    pass
+    except Exception as e:
+        pass
     return warnings

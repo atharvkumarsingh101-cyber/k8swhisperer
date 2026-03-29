@@ -1,0 +1,144 @@
+[
+  {
+    "timestamp": "2026-03-29T14:10:23.236720Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "crash-loop-pod",
+    "summary": "Action: restart_pod | Blast: LOW",
+    "data": {
+      "action": "restart_pod",
+      "parameters": {
+        "reason": "The pod is failing because the application is unable to find a required configuration file, as indicated by the \"FATAL: config not found\" message in the pod logs."
+      },
+      "confidence": 0.9
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:10:24.001662Z",
+    "event_type": "POD_RESTARTED",
+    "pod": "crash-loop-pod",
+    "summary": "Pod deleted for restart",
+    "data": {
+      "reason": "The pod is failing because the application is unable to find a required configuration file, as indicated by the \"FATAL: config not found\" message in the pod logs."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:12:24.832986Z",
+    "event_type": "REMEDIATION_TIMEOUT",
+    "pod": "crash-loop-pod",
+    "summary": "Pod did not recover in time",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:28:14.652062Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:28:15.555196Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing to pull the image \"thisrepo/doesnotexist:v999\" because the repository does not exist or the image is not accessible.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing to pull the image \"thisrepo/doesnotexist:v999\" because the repository does not exist or the image is not accessible.",
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest",
+      "severity": "MEDIUM",
+      "confidence": 0.9,
+      "explanation": "The error message indicates that the image \"thisrepo/doesnotexist:v999\" is not accessible, likely due to the repository not existing or the image not being available. This is causing the pod to continuously attempt to pull the image, resulting in a Back-off pulling image error. To resolve this issue, the image should be updated to a valid and accessible image.",
+      "raw_response": "ROOT_CAUSE: The pod is failing to pull the image \"thisrepo/doesnotexist:v999\" because the repository does not exist or the image is not accessible.\nFIX: kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest\nSEVERITY: MEDIUM\nCONFIDENCE: 0.9\nEXPLANATION: The error message indicates that the image \"thisrepo/doesnotexist:v999\" is not accessible, likely due to the repository not existing or the image not being available. This is causing the pod to continuously attempt to pull the image, resulting in a Back-off pulling image error. To resolve this issue, the image should be updated to a valid and accessible image."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:28:15.563495Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:28:15.571134Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:58:14.139816Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:58:15.267630Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because the image \"thisrepo/doesnotexist:v999\" does not exist in the repository, resulting in a pull access denied error.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because the image \"thisrepo/doesnotexist:v999\" does not exist in the repository, resulting in a pull access denied error.",
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest",
+      "severity": "MEDIUM",
+      "confidence": 0.9,
+      "explanation": "The error message clearly indicates that the repository does not exist, which is causing the image pull to fail, and the high number of restart attempts with a short interval suggests a persistent issue that needs to be addressed by correcting the image name or ensuring the repository is accessible. The lack of logs available does not provide additional insights, but the event history confirms the repeated image pull failures.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because the image \"thisrepo/doesnotexist:v999\" does not exist in the repository, resulting in a pull access denied error.\nFIX: kubectl edit pod imagepull-pod -n default --image=thisrepo/validimage:latest\nSEVERITY: MEDIUM\nCONFIDENCE: 0.9\nEXPLANATION: The error message clearly indicates that the repository does not exist, which is causing the image pull to fail, and the high number of restart attempts with a short interval suggests a persistent issue that needs to be addressed by correcting the image name or ensuring the repository is accessible. The lack of logs available does not provide additional insights, but the event history confirms the repeated image pull failures."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:58:15.276503Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:58:15.284054Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:58:37.202143Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "REJECTED",
+    "data": {
+      "choice": "reject"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:58:37.218117Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T14:58:37.238651Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: ",
+    "data": {},
+    "stellar_tx_hash": ""
+  }
+]

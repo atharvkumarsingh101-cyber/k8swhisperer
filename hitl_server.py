@@ -135,16 +135,34 @@ function decide(choice) {{
 """
     return HTMLResponse(html)
 
-
 @app.post("/decide/{thread_id}/{choice}")
 def decide(thread_id: str, choice: str):
     approved = choice == "approve"
     _decisions[thread_id] = approved
+
+    # Record on Stellar blockchain
+    tx_hash = ""
+    try:
+        from stellar.client import get_or_create_keypair, record_approval_on_chain
+        kp = get_or_create_keypair()
+        pending = _pending.get(thread_id, {})
+        tx_hash = record_approval_on_chain(
+            pod=pending.get("pod", "unknown"),
+            action=pending.get("action", "unknown"),
+            approved=approved,
+            keypair=kp
+        )
+    except Exception as e:
+        print(f"[STELLAR] Skipped: {e}")
+
     log_event("HITL_DECISION", thread_id,
-              "APPROVED" if approved else "REJECTED", {"choice": choice})
+              "APPROVED" if approved else "REJECTED",
+              {"choice": choice, "stellar_tx_hash": tx_hash})
+
     if thread_id in _events:
         _events[thread_id].set()
-    return {"status": "ok", "approved": approved}
+    return {"status": "ok", "approved": approved, "stellar_tx_hash": tx_hash}
+
 
 
 def start_server():
