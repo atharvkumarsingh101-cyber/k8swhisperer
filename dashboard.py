@@ -223,7 +223,7 @@ _TEMPLATE = """<!DOCTYPE html>
           <td style="white-space:nowrap;color:#94a3b8;">{{ entry.timestamp[:19]|replace('T',' ') }}</td>
           <td><span class="ev ev-{{ entry.event_type }}">{{ entry.event_type }}</span></td>
           <td><code>{{ entry.data.get('pod', entry.data.get('pod_name', '—')) }}</code></td>
-          <td>{{ entry | format_data }}</td>
+          <td>{{ entry | format_data | safe }}</td>
         </tr>
         {% endfor %}
       </tbody>

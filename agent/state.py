@@ -4,6 +4,10 @@ from dataclasses import dataclass, field
 import datetime
 import operator
 
+# Import the authoritative RemediationPlan from executor to avoid duplication
+from agent.executor import RemediationPlan
+
+
 @dataclass
 class Anomaly:
     pod: str
@@ -13,16 +17,10 @@ class Anomaly:
     confidence: float
     message: str
     restart_count: int = 0
-    detected_at: str = field(default_factory=lambda: datetime.datetime.utcnow().isoformat() + "Z")
+    detected_at: str = field(
+        default_factory=lambda: datetime.datetime.utcnow().isoformat() + "Z"
+    )
 
-@dataclass
-class RemediationPlan:
-    action: str
-    target_pod: str
-    namespace: str
-    parameters: dict
-    confidence: float
-    blast_radius: str
 
 @dataclass
 class LogEntry:
@@ -32,6 +30,7 @@ class LogEntry:
     summary: str
     data: dict
     stellar_tx_hash: str = ""
+
 
 class ClusterState(TypedDict):
     events: List[dict]

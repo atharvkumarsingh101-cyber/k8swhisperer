@@ -512,5 +512,4108 @@
     "summary": "Result: alerted",
     "data": {},
     "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:29:57.072338Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "3 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:29:58.145924Z",
+    "event_type": "DIAGNOSE",
+    "pod": "crash-loop-pod",
+    "summary": "The pod is failing due to a \"config not found\" error, indicating that the application is unable to locate its required configuration.",
+    "data": {
+      "pod": "crash-loop-pod",
+      "namespace": "default",
+      "failure_type": "CrashLoopBackOff",
+      "root_cause": "The pod is failing due to a \"config not found\" error, indicating that the application is unable to locate its required configuration.",
+      "fix": "kubectl set env deployment/crash-loop-pod -n default CONFIG_FILE=/path/to/config/file",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "explanation": "The application is consistently crashing and restarting, as indicated by the high restart count, due to the inability to find its configuration. The \"FATAL: config not found\" message in the pod logs confirms this. To resolve the issue, the configuration file needs to be made available to the application, either by mounting a volume or setting an environment variable pointing to the config file.",
+      "raw_response": "ROOT_CAUSE: The pod is failing due to a \"config not found\" error, indicating that the application is unable to locate its required configuration.\nFIX: kubectl set env deployment/crash-loop-pod -n default CONFIG_FILE=/path/to/config/file\nSEVERITY: HIGH\nCONFIDENCE: 0.8\nEXPLANATION: The application is consistently crashing and restarting, as indicated by the high restart count, due to the inability to find its configuration. The \"FATAL: config not found\" message in the pod logs confirms this. To resolve the issue, the configuration file needs to be made available to the application, either by mounting a volume or setting an environment variable pointing to the config file."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:29:58.155196Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "crash-loop-pod",
+    "summary": "Auto=True",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:29:58.162624Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "crash-loop-pod",
+    "summary": "Action: restart_pod | Blast: LOW",
+    "data": {
+      "action": "restart_pod",
+      "parameters": {
+        "reason": "The pod is failing due to a \"config not found\" error, indicating that the application is unable to locate its required configuration."
+      },
+      "confidence": 0.8
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:29:59.785706Z",
+    "event_type": "POD_RESTARTED",
+    "pod": "crash-loop-pod",
+    "summary": "Pod deleted for restart",
+    "data": {
+      "reason": "The pod is failing due to a \"config not found\" error, indicating that the application is unable to locate its required configuration."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:32:00.595407Z",
+    "event_type": "REMEDIATION_TIMEOUT",
+    "pod": "crash-loop-pod",
+    "summary": "Pod did not recover in time",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:32:00.595407Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: timeout",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:48:54.313516Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:48:55.319101Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it is trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" from a repository that does not exist or requires authentication.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it is trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" from a repository that does not exist or requires authentication.",
+      "fix": "kubectl edit pod imagepull-pod -n default and update the image to a valid one or provide the necessary authentication credentials.",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "explanation": "The error message clearly indicates that the image pull is failing due to the repository not existing or requiring authentication. The pod is constantly retrying to pull the image, resulting in an ImagePullBackOff failure. To fix this, the image needs to be updated to a valid one or the necessary authentication credentials need to be provided.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it is trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" from a repository that does not exist or requires authentication.\nFIX: kubectl edit pod imagepull-pod -n default and update the image to a valid one or provide the necessary authentication credentials.\nSEVERITY: HIGH\nCONFIDENCE: 0.9\nEXPLANATION: The error message clearly indicates that the image pull is failing due to the repository not existing or requiring authentication. The pod is constantly retrying to pull the image, resulting in an ImagePullBackOff failure. To fix this, the image needs to be updated to a valid one or the necessary authentication credentials need to be provided."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:48:55.325231Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:48:55.338260Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:50:44.899262Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:50:46.145210Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which results in a pull access denied error.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which results in a pull access denied error.",
+      "fix": "Update the pod's configuration to use a valid image by running `kubectl edit pod imagepull-pod -n default` and changing the image name to a correct one.",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "explanation": "The error message clearly indicates that the repository \"thisrepo/doesnotexist\" does not exist, causing the image pull to fail, and the pod is stuck in an image pull backoff loop. The image name is likely a typo or incorrect, and updating it to a valid image should resolve the issue. The high severity is due to the pod being in a failed state and not providing any functional workload.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which results in a pull access denied error.\nFIX: Update the pod's configuration to use a valid image by running `kubectl edit pod imagepull-pod -n default` and changing the image name to a correct one.\nSEVERITY: HIGH\nCONFIDENCE: 0.9\nEXPLANATION: The error message clearly indicates that the repository \"thisrepo/doesnotexist\" does not exist, causing the image pull to fail, and the pod is stuck in an image pull backoff loop. The image name is likely a typo or incorrect, and updating it to a valid image should resolve the issue. The high severity is due to the pod being in a failed state and not providing any functional workload."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:50:46.161101Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:50:46.168826Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:51:26.413029Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "REJECTED",
+    "data": {
+      "choice": "reject",
+      "stellar_tx_hash": "bf96bd18a50bd1a6dca73a6d35a62bea86a8361fc7f8bb27bbce89605e633eef"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:51:26.415078Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:51:26.444577Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: ",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:57:16.964979Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:57:17.960078Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The image \"thisrepo/doesnotexist:v999\" does not exist in the registry, causing the image pull to fail.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The image \"thisrepo/doesnotexist:v999\" does not exist in the registry, causing the image pull to fail.",
+      "fix": "kubectl set image pod/imagepull-pod -n default thisrepo/valid-image:latest",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "explanation": "The error message indicates that the repository \"thisrepo/doesnotexist\" does not exist or access is denied, resulting in a pull access denied error. The pod is unable to start due to the failed image pull, leading to a repeated back-off pulling of the image. To fix this, updating the pod to use a valid image is necessary.",
+      "raw_response": "ROOT_CAUSE: The image \"thisrepo/doesnotexist:v999\" does not exist in the registry, causing the image pull to fail.\nFIX: kubectl set image pod/imagepull-pod -n default thisrepo/valid-image:latest\nSEVERITY: HIGH\nCONFIDENCE: 0.9\nEXPLANATION: The error message indicates that the repository \"thisrepo/doesnotexist\" does not exist or access is denied, resulting in a pull access denied error. The pod is unable to start due to the failed image pull, leading to a repeated back-off pulling of the image. To fix this, updating the pod to use a valid image is necessary."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:57:17.981895Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:57:17.991430Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:59:22.761847Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:59:23.950625Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which is causing a pull access denied error.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which is causing a pull access denied error.",
+      "fix": "kubectl edit pod imagepull-pod -n default and update the image to a valid one, or kubectl patch pod imagepull-pod -n default -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:valid-tag\"}]}}'",
+      "severity": "HIGH",
+      "confidence": 0.99,
+      "explanation": "The error message clearly states that the image does not exist and the pod is unable to pull it, causing the ImagePullBackOff failure type. This is likely due to a typo in the image name or the image not being pushed to the Docker repository. To fix this, the image name should be updated to a valid one in the pod specification.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which is causing a pull access denied error.\nFIX: kubectl edit pod imagepull-pod -n default and update the image to a valid one, or kubectl patch pod imagepull-pod -n default -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:valid-tag\"}]}}'\nSEVERITY: HIGH\nCONFIDENCE: 0.99\nEXPLANATION: The error message clearly states that the image does not exist and the pod is unable to pull it, causing the ImagePullBackOff failure type. This is likely due to a typo in the image name or the image not being pushed to the Docker repository. To fix this, the image name should be updated to a valid one in the pod specification."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:59:23.954543Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T18:59:23.966470Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T19:02:18.059838Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T19:02:18.060418Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: ",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T19:09:19.226150Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T19:09:19.228720Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: ",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:20:23.695981Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:20:25.197337Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" from a repository that may require authentication or does not exist.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" from a repository that may require authentication or does not exist.",
+      "fix": "Update the pod's image to a valid one using `kubectl edit pod imagepull-pod -n default` or `kubectl patch pod imagepull-pod -n default -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:valid-tag\"}]}}'`.",
+      "severity": "HIGH",
+      "confidence": 0.99,
+      "explanation": "The error message clearly indicates that the image pull is failing due to the repository not existing or requiring authentication. The pod's restart count is 0, indicating that this is the initial failure. The kubelet is continuously trying to pull the image, resulting in a high severity issue that needs to be addressed by updating the pod's configuration with a valid image.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" from a repository that may require authentication or does not exist.\nFIX: Update the pod's image to a valid one using `kubectl edit pod imagepull-pod -n default` or `kubectl patch pod imagepull-pod -n default -p '{\"spec\":{\"containers\":[{\"name\":\"imagepull-pod\",\"image\":\"valid-repo/valid-image:valid-tag\"}]}}'`.\nSEVERITY: HIGH\nCONFIDENCE: 0.99\nEXPLANATION: The error message clearly indicates that the image pull is failing due to the repository not existing or requiring authentication. The pod's restart count is 0, indicating that this is the initial failure. The kubelet is continuously trying to pull the image, resulting in a high severity issue that needs to be addressed by updating the pod's configuration with a valid image."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:20:25.221994Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:20:25.238783Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:26:57.248806Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "3 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:26:58.723472Z",
+    "event_type": "DIAGNOSE",
+    "pod": "crash-loop-pod",
+    "summary": "The pod is failing due to a CrashLoopBackOff, which is likely caused by the container crashing or exiting shortly after starting, possibly due to an issue with the busybox image or its configuration.",
+    "data": {
+      "pod": "crash-loop-pod",
+      "namespace": "default",
+      "failure_type": "CrashLoopBackOff",
+      "root_cause": "The pod is failing due to a CrashLoopBackOff, which is likely caused by the container crashing or exiting shortly after starting, possibly due to an issue with the busybox image or its configuration.",
+      "fix": "kubectl describe pod crash-loop-pod -n default && kubectl logs crash-loop-pod -n default --previous && kubectl edit pod crash-loop-pod -n default to troubleshoot and adjust the pod configuration as needed.",
+      "severity": "HIGH",
+      "confidence": 0.8,
+      "explanation": "The pod's container is crashing repeatedly, causing the pod to restart multiple times, as indicated by the Reboot Count of 6 and the Failed status of the ContainersReady condition. The fact that the container logs cannot be retrieved suggests that the container is crashing early in its startup process. Further troubleshooting is required to determine the root cause of the container crash.",
+      "raw_response": "ROOT_CAUSE: The pod is failing due to a CrashLoopBackOff, which is likely caused by the container crashing or exiting shortly after starting, possibly due to an issue with the busybox image or its configuration.\nFIX: kubectl describe pod crash-loop-pod -n default && kubectl logs crash-loop-pod -n default --previous && kubectl edit pod crash-loop-pod -n default to troubleshoot and adjust the pod configuration as needed.\nSEVERITY: HIGH\nCONFIDENCE: 0.8\nEXPLANATION: The pod's container is crashing repeatedly, causing the pod to restart multiple times, as indicated by the Reboot Count of 6 and the Failed status of the ContainersReady condition. The fact that the container logs cannot be retrieved suggests that the container is crashing early in its startup process. Further troubleshooting is required to determine the root cause of the container crash."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:26:58.743990Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "crash-loop-pod",
+    "summary": "Auto=True",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:26:58.763197Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "crash-loop-pod",
+    "summary": "Action: restart_pod | Blast: LOW",
+    "data": {
+      "action": "restart_pod",
+      "parameters": {
+        "reason": "The pod is failing due to a CrashLoopBackOff, which is likely caused by the container crashing or exiting shortly after starting, possibly due to an issue with the busybox image or its configuration."
+      },
+      "confidence": 0.8
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:26:59.926495Z",
+    "event_type": "POD_RESTARTED",
+    "pod": "crash-loop-pod",
+    "summary": "Pod deleted for restart",
+    "data": {
+      "reason": "The pod is failing due to a CrashLoopBackOff, which is likely caused by the container crashing or exiting shortly after starting, possibly due to an issue with the busybox image or its configuration."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:29:01.877146Z",
+    "event_type": "REMEDIATION_TIMEOUT",
+    "pod": "crash-loop-pod",
+    "summary": "Pod did not recover in time",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:29:01.877146Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: timeout",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:29:33.128565Z",
+    "event_type": "DETECT",
+    "pod": "cluster",
+    "summary": "2 anomalies found",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:29:35.288996Z",
+    "event_type": "DIAGNOSE",
+    "pod": "imagepull-pod",
+    "summary": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which results in a \"pull access denied\" error.",
+    "data": {
+      "pod": "imagepull-pod",
+      "namespace": "default",
+      "failure_type": "ImagePullBackOff",
+      "root_cause": "The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which results in a \"pull access denied\" error.",
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/existingimage:latest",
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "explanation": "The error message clearly indicates that the repository \"thisrepo/doesnotexist\" does not exist or may require authentication, causing the image pull to fail. The pod is continuously retrying to pull the image, resulting in a high severity failure. To fix this, the image name in the pod specification needs to be updated to a valid image.",
+      "raw_response": "ROOT_CAUSE: The pod is failing because it's trying to pull a non-existent Docker image \"thisrepo/doesnotexist:v999\" which results in a \"pull access denied\" error.\nFIX: kubectl edit pod imagepull-pod -n default --image=thisrepo/existingimage:latest\nSEVERITY: HIGH\nCONFIDENCE: 0.9\nEXPLANATION: The error message clearly indicates that the repository \"thisrepo/doesnotexist\" does not exist or may require authentication, causing the image pull to fail. The pod is continuously retrying to pull the image, resulting in a high severity failure. To fix this, the image name in the pod specification needs to be updated to a valid image."
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:29:35.322143Z",
+    "event_type": "SAFETY_GATE",
+    "pod": "imagepull-pod",
+    "summary": "Auto=False",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:29:35.386194Z",
+    "event_type": "HITL_REQUESTED",
+    "pod": "imagepull-pod",
+    "summary": "Waiting for approval: alert_human",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:30:21.823223Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "APPROVED",
+    "data": {
+      "choice": "approve",
+      "stellar_tx_hash": "ad6b138fb848407325748fa899da9cab02666d41f10eb152c37388d01485177b"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:30:21.853266Z",
+    "event_type": "HITL_DECISION",
+    "pod": "imagepull-pod",
+    "summary": "Decision: True",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:30:21.918645Z",
+    "event_type": "PLAN_CREATED",
+    "pod": "imagepull-pod",
+    "summary": "Action: alert_human | Blast: LOW",
+    "data": {
+      "action": "alert_human",
+      "parameters": {
+        "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/existingimage:latest"
+      },
+      "confidence": 0.9
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:30:21.998196Z",
+    "event_type": "HUMAN_ALERT",
+    "pod": "imagepull-pod",
+    "summary": "[ALERT] Human intervention required for imagepull-pod. Fix: kubectl edit pod imagepull-pod -n default --image=thisrepo/existingimage:latest",
+    "data": {
+      "fix": "kubectl edit pod imagepull-pod -n default --image=thisrepo/existingimage:latest"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:30:22.079354Z",
+    "event_type": "CYCLE_COMPLETE",
+    "pod": "cluster",
+    "summary": "Result: alerted",
+    "data": {},
+    "stellar_tx_hash": ""
+  },
+  {
+    "timestamp": "2026-03-29T20:30:22.384940Z",
+    "event_type": "HITL_DECISION",
+    "pod": "run-1",
+    "summary": "APPROVED",
+    "data": {
+      "choice": "approve",
+      "stellar_tx_hash": "481e22a1878fa11a15483ea16d912bc320fa1b5ac39a2042d331720b7d002087"
+    },
+    "stellar_tx_hash": ""
+  },
+  {
+    "event_id": "62665ed8-e603-45c2-86e5-1d5e0e3a8285",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:31:45.677271+00:00",
+    "epoch": 1774837905.6772711,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "92eecdc7-f42e-4829-bee0-aabf5e750698",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:31:45.681144+00:00",
+    "epoch": 1774837905.6811442,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 1
+    }
+  },
+  {
+    "event_id": "80b97296-78fb-4b00-8417-c6dae0d721c6",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:32:05.911097+00:00",
+    "epoch": 1774837925.9110978,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e407f4bb-8d2c-4ae5-8e70-6e42eadda0a3",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:32:05.916542+00:00",
+    "epoch": 1774837925.916543,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 2
+    }
+  },
+  {
+    "event_id": "b1c92e1b-100b-4d22-a190-927991d89b42",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:32:26.169791+00:00",
+    "epoch": 1774837946.1697912,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "13a72f8f-4b4c-4d01-95e8-857b3a971847",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:32:26.173726+00:00",
+    "epoch": 1774837946.1737263,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 3
+    }
+  },
+  {
+    "event_id": "d7547f2d-bdd0-4967-bc14-2fad0fa51e8f",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:32:46.417224+00:00",
+    "epoch": 1774837966.4172242,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "a31f341e-1988-4ac7-85e4-d691c630ee02",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:32:46.423386+00:00",
+    "epoch": 1774837966.4233866,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 4
+    }
+  },
+  {
+    "event_id": "66b031b0-a170-4b01-9f34-ba70311d0956",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:33:06.663452+00:00",
+    "epoch": 1774837986.6634524,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "d3c61a93-3a06-4081-9fda-0405cea1dadf",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:33:06.668723+00:00",
+    "epoch": 1774837986.6687238,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 5
+    }
+  },
+  {
+    "event_id": "7dc4a076-ea46-4090-80cc-b4b285b9f960",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:33:26.919603+00:00",
+    "epoch": 1774838006.9196033,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "538e9a7e-be39-409f-82ea-94b45d33a390",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:33:26.923820+00:00",
+    "epoch": 1774838006.92382,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 6
+    }
+  },
+  {
+    "event_id": "a0fbe2f3-4bff-4b0b-8751-94e3d22a1998",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:33:47.154350+00:00",
+    "epoch": 1774838027.1543503,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "b97115dc-25be-4e1c-876d-8821d69841b4",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:33:47.160930+00:00",
+    "epoch": 1774838027.1609304,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 7
+    }
+  },
+  {
+    "event_id": "68907a04-0015-486c-8239-1b949ad6646d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:34:07.403405+00:00",
+    "epoch": 1774838047.403406,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "04697c31-943a-44fb-8b56-2870d3ee184a",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:34:07.414143+00:00",
+    "epoch": 1774838047.4141438,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 8
+    }
+  },
+  {
+    "event_id": "f5daabda-811e-4efb-b757-0f436b901c18",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:34:27.653036+00:00",
+    "epoch": 1774838067.6530368,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "1a4d67cc-d301-45ba-b8f5-488c51a3d249",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:34:27.656427+00:00",
+    "epoch": 1774838067.656427,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 9
+    }
+  },
+  {
+    "event_id": "d8bca636-ab83-4418-9d45-23a6ebdaabb4",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:34:47.896830+00:00",
+    "epoch": 1774838087.8968303,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "08fae23c-2531-4c6d-92ff-2745f6dae371",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:34:47.903756+00:00",
+    "epoch": 1774838087.9037569,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 10
+    }
+  },
+  {
+    "event_id": "58e0193a-3845-45ff-8f5b-1a089c1807e2",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:35:08.138411+00:00",
+    "epoch": 1774838108.1384113,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "04364d0e-4cf9-4f6f-9b97-29c05e6a507b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:35:08.146324+00:00",
+    "epoch": 1774838108.1463244,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 11
+    }
+  },
+  {
+    "event_id": "6e5b82c2-f8c7-466d-bab4-97ebfd04cddb",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:35:28.387408+00:00",
+    "epoch": 1774838128.3874078,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "de8c5625-efa5-42e8-9eff-d5854c0c0d5b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:35:28.394673+00:00",
+    "epoch": 1774838128.3946738,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 12
+    }
+  },
+  {
+    "event_id": "8fcda937-66aa-42d3-bdad-b9a228b4db9f",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:35:48.627573+00:00",
+    "epoch": 1774838148.6275733,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e5afff1d-3ae5-4834-97b0-335024c815f1",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:35:48.633027+00:00",
+    "epoch": 1774838148.6330276,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 13
+    }
+  },
+  {
+    "event_id": "8975d651-13af-46ef-9dfe-71e3f04842ab",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:36:08.886756+00:00",
+    "epoch": 1774838168.8867564,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "6cb5f9f3-88cc-4e69-bd67-8dc6708faf0e",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:36:08.893678+00:00",
+    "epoch": 1774838168.8936782,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 14
+    }
+  },
+  {
+    "event_id": "39c398a3-95bc-4505-a506-ac04d3e5ea24",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:36:29.145814+00:00",
+    "epoch": 1774838189.145815,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8bd64805-b91b-4027-b255-33bfca72c5a2",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:36:29.154071+00:00",
+    "epoch": 1774838189.1540716,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 15
+    }
+  },
+  {
+    "event_id": "7b37a963-8fb5-4115-b7e0-c4b85e8ee1c5",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:36:49.401834+00:00",
+    "epoch": 1774838209.4018342,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e592200a-da99-4b10-a196-eae8f4c6f43e",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:36:49.412284+00:00",
+    "epoch": 1774838209.4122841,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 16
+    }
+  },
+  {
+    "event_id": "e5fc6fd2-47cc-4bc8-a52a-b75402d80667",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:37:09.671861+00:00",
+    "epoch": 1774838229.6718616,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "b923a09c-9958-44ba-932d-f476d83a7968",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:37:09.678099+00:00",
+    "epoch": 1774838229.6780992,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 17
+    }
+  },
+  {
+    "event_id": "c518d75e-9cf2-46c3-a118-3258e983713d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:37:29.914886+00:00",
+    "epoch": 1774838249.914887,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "56c0e906-db85-44f7-8588-a054bbc56046",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:37:29.922761+00:00",
+    "epoch": 1774838249.9227614,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 18
+    }
+  },
+  {
+    "event_id": "5a499788-ac20-4827-8b20-9520676036dc",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:37:50.167871+00:00",
+    "epoch": 1774838270.1678717,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "6feeae40-f381-4a05-94d7-65ea3e73b78b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:37:50.174142+00:00",
+    "epoch": 1774838270.1741424,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 19
+    }
+  },
+  {
+    "event_id": "6c6a48d6-754e-43de-9b0d-93a158cc86d3",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:38:10.413349+00:00",
+    "epoch": 1774838290.4133499,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "3f4a3a36-0846-4fe1-98e6-330d5a5f37af",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:38:10.421638+00:00",
+    "epoch": 1774838290.421639,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 20
+    }
+  },
+  {
+    "event_id": "e5029465-f64a-437f-b24b-ce8036cfaa7c",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:38:30.661329+00:00",
+    "epoch": 1774838310.6613295,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "f4e2bb4e-861a-433c-9657-89ad1bb62337",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:38:30.672733+00:00",
+    "epoch": 1774838310.672733,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 21
+    }
+  },
+  {
+    "event_id": "7e5700a6-3ae4-486c-a67b-8be45eed25a6",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:38:50.919664+00:00",
+    "epoch": 1774838330.9196641,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "479ae831-e00f-4822-9a37-99069af12a58",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:38:50.928387+00:00",
+    "epoch": 1774838330.9283872,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 22
+    }
+  },
+  {
+    "event_id": "08cc16a2-f2cb-4ed1-8ef2-790dd2f25d0a",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:39:11.171935+00:00",
+    "epoch": 1774838351.1719358,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "573a51ae-95f6-46ea-8d04-dd6cdbe63cac",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:39:11.179920+00:00",
+    "epoch": 1774838351.1799204,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 23
+    }
+  },
+  {
+    "event_id": "8eb18d09-39ac-48ed-906c-bddff26a528a",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:39:31.420830+00:00",
+    "epoch": 1774838371.420831,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "ff3df0c6-42ea-4957-8646-a3ecd9b1a162",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:39:31.428443+00:00",
+    "epoch": 1774838371.428443,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 24
+    }
+  },
+  {
+    "event_id": "d255a13a-e5f5-49e7-aa81-724595676e78",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:39:51.673087+00:00",
+    "epoch": 1774838391.673087,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "44a81a01-5614-49a0-857c-2295c65d2fed",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:39:51.683504+00:00",
+    "epoch": 1774838391.683504,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 25
+    }
+  },
+  {
+    "event_id": "12715969-9da9-42a1-bdfa-0f0506e67432",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:40:11.930940+00:00",
+    "epoch": 1774838411.9309409,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "04c07163-6e4f-4cb5-9dec-0e4eb478a8d5",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:40:11.942396+00:00",
+    "epoch": 1774838411.9423966,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 26
+    }
+  },
+  {
+    "event_id": "d0b01617-818f-4376-bbe8-97c52cc98622",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:40:32.186087+00:00",
+    "epoch": 1774838432.1860874,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8ec2fdd8-0522-4175-861c-25874ce94cce",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:40:32.196864+00:00",
+    "epoch": 1774838432.196864,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 27
+    }
+  },
+  {
+    "event_id": "e62f9d96-153a-463e-a15f-2f145c46df25",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:40:52.459123+00:00",
+    "epoch": 1774838452.4591238,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "ac3b1fe8-205a-48d3-bb6b-aa28685ac056",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:40:52.470574+00:00",
+    "epoch": 1774838452.4705741,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 28
+    }
+  },
+  {
+    "event_id": "10746804-eb77-4ed2-a3e9-7f94ced35c8e",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:41:12.720612+00:00",
+    "epoch": 1774838472.7206125,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "bb362411-920f-49ce-8dc1-13aa4e1600c6",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:41:12.727847+00:00",
+    "epoch": 1774838472.7278476,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 29
+    }
+  },
+  {
+    "event_id": "78ee6ccd-2fa4-403e-95a4-b711f899379d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:41:32.960259+00:00",
+    "epoch": 1774838492.9602597,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "df72146a-0309-4d70-aec0-8af339f123da",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:41:32.967375+00:00",
+    "epoch": 1774838492.9673755,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 30
+    }
+  },
+  {
+    "event_id": "b1f09e0b-cf43-434e-975b-f00e6f78e32d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:41:53.191946+00:00",
+    "epoch": 1774838513.191946,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "d4112bb0-0efe-4a75-992d-526080badd57",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:41:53.198785+00:00",
+    "epoch": 1774838513.1987858,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 31
+    }
+  },
+  {
+    "event_id": "ce1a0179-a7b9-4839-b299-fd2cf4d2fd04",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:42:13.429436+00:00",
+    "epoch": 1774838533.429437,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "046be824-ba83-4341-a2d0-b6ab1e403d79",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:42:13.435613+00:00",
+    "epoch": 1774838533.4356136,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 32
+    }
+  },
+  {
+    "event_id": "8ef336b1-3d25-4545-93a6-c00894765921",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:42:33.671178+00:00",
+    "epoch": 1774838553.6711783,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "47299799-a1c3-43af-9606-8e9c2a002ca0",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:42:33.678638+00:00",
+    "epoch": 1774838553.6786382,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 33
+    }
+  },
+  {
+    "event_id": "983d96cb-a23f-4f41-9d5b-a4ff83714d45",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:42:53.925621+00:00",
+    "epoch": 1774838573.925621,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "802b12e8-0370-4d28-87cf-b967dc939a93",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:42:53.934613+00:00",
+    "epoch": 1774838573.9346135,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 34
+    }
+  },
+  {
+    "event_id": "05e314c2-f266-4a3e-929a-460a48062003",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:43:14.173777+00:00",
+    "epoch": 1774838594.173777,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "380ef1c4-748c-48ba-9789-2fd7c5d71ec1",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:43:14.182335+00:00",
+    "epoch": 1774838594.182335,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 35
+    }
+  },
+  {
+    "event_id": "75911e0b-ae13-4452-89f3-9268771c2c9f",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:43:34.437841+00:00",
+    "epoch": 1774838614.437842,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "329bdee2-56b2-4b63-a10e-b0bc1477caf2",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:43:34.445656+00:00",
+    "epoch": 1774838614.4456563,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 36
+    }
+  },
+  {
+    "event_id": "aa651814-592b-4c83-b659-b353e02a1eb5",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:43:54.688118+00:00",
+    "epoch": 1774838634.6881187,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "bce063fb-4bba-4fff-a4f7-ea3cc5dcb9a1",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:43:54.695134+00:00",
+    "epoch": 1774838634.6951349,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 37
+    }
+  },
+  {
+    "event_id": "a8b8b6f9-8995-4638-b8af-df2dc5e843b7",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:44:14.926219+00:00",
+    "epoch": 1774838654.9262197,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "1f7d365f-c538-4568-8719-ccec4a3de6f8",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:44:14.932958+00:00",
+    "epoch": 1774838654.9329581,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 38
+    }
+  },
+  {
+    "event_id": "69f1a614-98c9-4574-9fbe-03739ed9b9d6",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:44:35.189795+00:00",
+    "epoch": 1774838675.189795,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "3ad5ab51-1e26-4a48-b512-b50a94493714",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:44:35.195878+00:00",
+    "epoch": 1774838675.195878,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 39
+    }
+  },
+  {
+    "event_id": "ca5d16d0-bd5c-45f1-bdc1-7f0802c8dde9",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:44:55.440121+00:00",
+    "epoch": 1774838695.440122,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "54b3a9a2-693e-410d-9601-35a11653e98a",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:44:55.450745+00:00",
+    "epoch": 1774838695.4507453,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 40
+    }
+  },
+  {
+    "event_id": "a16b810c-aa5c-444e-8212-3fd66f19c4ab",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:45:15.700119+00:00",
+    "epoch": 1774838715.7001197,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "2380c700-f08d-415f-b86d-70240e1da3dd",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:45:15.705354+00:00",
+    "epoch": 1774838715.7053547,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 41
+    }
+  },
+  {
+    "event_id": "db574f0c-fe32-4d95-965b-b3610513a218",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:45:35.967692+00:00",
+    "epoch": 1774838735.9676926,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "93cd0721-656e-4451-b01e-b744dfd193a4",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:45:35.974321+00:00",
+    "epoch": 1774838735.9743214,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 42
+    }
+  },
+  {
+    "event_id": "e408bd5c-3382-49d3-8efa-12b5ae0c9dcd",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:45:56.210022+00:00",
+    "epoch": 1774838756.2100227,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "4e379b37-7555-492c-a133-6227404a4632",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:45:56.217246+00:00",
+    "epoch": 1774838756.2172465,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 43
+    }
+  },
+  {
+    "event_id": "d54caf39-f0d4-4653-8012-6edb8adcb8ee",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:46:16.460390+00:00",
+    "epoch": 1774838776.4603908,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8f2cb212-94d1-4d0c-b21e-f2bf28c3d27e",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:46:16.466594+00:00",
+    "epoch": 1774838776.4665942,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 44
+    }
+  },
+  {
+    "event_id": "538373a4-57ea-4428-b581-c559183f2aac",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:46:36.702301+00:00",
+    "epoch": 1774838796.7023013,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "ab511d9a-7c7f-4ea3-a99d-e71a1623340a",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:46:36.714484+00:00",
+    "epoch": 1774838796.7144842,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 45
+    }
+  },
+  {
+    "event_id": "8ace48ed-81b8-4a77-bc31-f3a3267bc87e",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:46:56.954278+00:00",
+    "epoch": 1774838816.9542785,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "efc64976-6908-43e7-aab9-1ecbea7b872b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:46:56.965236+00:00",
+    "epoch": 1774838816.9652362,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 46
+    }
+  },
+  {
+    "event_id": "4c8ca290-44dc-4db5-a50d-2b459b0f3124",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:47:17.211068+00:00",
+    "epoch": 1774838837.2110682,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "b445634a-14c2-4b2c-8017-2ce9a7b3d61f",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:47:17.217404+00:00",
+    "epoch": 1774838837.2174046,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 47
+    }
+  },
+  {
+    "event_id": "969fca61-3dbd-44c2-aaef-8a7517c957cb",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:47:37.450231+00:00",
+    "epoch": 1774838857.450231,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "fc38f8aa-e1f6-40c5-953e-a3fc38324dfc",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:47:37.456548+00:00",
+    "epoch": 1774838857.4565485,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 48
+    }
+  },
+  {
+    "event_id": "ea1b7cbf-af14-4e1e-9253-be0b54d2f51d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:47:57.696122+00:00",
+    "epoch": 1774838877.6961222,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e28a8dd0-7b52-48a7-867a-4e2df28a6c18",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:47:57.702914+00:00",
+    "epoch": 1774838877.702914,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 49
+    }
+  },
+  {
+    "event_id": "8aadd5ce-9ab4-4b3f-b547-54d855beecc4",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:48:17.962706+00:00",
+    "epoch": 1774838897.962706,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "db95721b-8a02-4926-9bdf-661d074604f7",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:48:17.975396+00:00",
+    "epoch": 1774838897.9753964,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 50
+    }
+  },
+  {
+    "event_id": "853a1717-3f20-4ee4-b3a1-b1ba7623217d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:48:38.223301+00:00",
+    "epoch": 1774838918.223302,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "53d141f6-8b70-48f3-a993-b9128c4f39a2",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:48:38.234649+00:00",
+    "epoch": 1774838918.2346497,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 51
+    }
+  },
+  {
+    "event_id": "c6f5c4a8-4fc5-412b-8228-a54e8b7e1ee1",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:48:58.490753+00:00",
+    "epoch": 1774838938.4907532,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "cebcca9d-e83b-42c6-9470-f54f017904cc",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:48:58.500421+00:00",
+    "epoch": 1774838938.5004215,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 52
+    }
+  },
+  {
+    "event_id": "ad51d877-b960-46fe-b607-95896a867f01",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:49:18.739718+00:00",
+    "epoch": 1774838958.7397184,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "5dd953f2-ecd2-4b27-b911-75dade63c3fa",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:49:18.746364+00:00",
+    "epoch": 1774838958.7463644,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 53
+    }
+  },
+  {
+    "event_id": "16fc2ce5-c9f2-4d19-ac0b-78aab648b77b",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:49:38.978105+00:00",
+    "epoch": 1774838978.9781055,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "2a9a8787-87dc-471c-90ab-ed90a3291672",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:49:38.986473+00:00",
+    "epoch": 1774838978.9864736,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 54
+    }
+  },
+  {
+    "event_id": "319ca3e1-2562-42da-a752-74888046b9b5",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:49:59.230796+00:00",
+    "epoch": 1774838999.2307968,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "c6dfc94a-d418-4c2f-bdb9-78b2a3ea556c",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:49:59.241549+00:00",
+    "epoch": 1774838999.241549,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 55
+    }
+  },
+  {
+    "event_id": "b7316cfc-78f4-4320-82a7-fca277a14202",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:50:19.510567+00:00",
+    "epoch": 1774839019.510568,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "69c07ea4-c9bb-459f-a1ba-7f21ab9c5d11",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:50:19.514831+00:00",
+    "epoch": 1774839019.5148313,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 56
+    }
+  },
+  {
+    "event_id": "94954de6-afd2-43e2-bde9-47f5c74e7778",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:50:39.786685+00:00",
+    "epoch": 1774839039.7866852,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "68b56008-2f5e-49ac-ba25-adaa0eab9f4b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:50:39.800626+00:00",
+    "epoch": 1774839039.8006268,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 57
+    }
+  },
+  {
+    "event_id": "83b2b051-757e-4ff8-9499-ff8def78955f",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:51:00.036434+00:00",
+    "epoch": 1774839060.0364342,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8f98100e-f6d0-4139-a3f0-b28e82fb6669",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:51:00.045987+00:00",
+    "epoch": 1774839060.0459871,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 58
+    }
+  },
+  {
+    "event_id": "d6792a47-30e6-49ce-b496-4d0a1d834e65",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:51:20.293599+00:00",
+    "epoch": 1774839080.2936,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8f1007c6-5ca0-4d07-9679-22d367c7949a",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:51:20.302637+00:00",
+    "epoch": 1774839080.3026373,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 59
+    }
+  },
+  {
+    "event_id": "4560ef61-ff82-4acf-b636-4ac13c081190",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:51:40.547420+00:00",
+    "epoch": 1774839100.5474205,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "4cc97ce7-f3df-46d1-aa3a-19477608bbd5",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:51:40.555191+00:00",
+    "epoch": 1774839100.5551913,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 60
+    }
+  },
+  {
+    "event_id": "618b876d-6a90-41b6-b7a6-ee07760d5023",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:52:00.835258+00:00",
+    "epoch": 1774839120.8352587,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "6a13b5b6-d3f4-49d0-ab2f-edc872ad7f7b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:52:00.846538+00:00",
+    "epoch": 1774839120.846538,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 61
+    }
+  },
+  {
+    "event_id": "4fdc86e7-c85e-4c10-8073-bbe4717aa0fa",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:52:21.107467+00:00",
+    "epoch": 1774839141.1074674,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "ecb60d2f-41b8-4c56-96e8-42c7796601be",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:52:21.116415+00:00",
+    "epoch": 1774839141.1164153,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 62
+    }
+  },
+  {
+    "event_id": "a741ac93-c594-4b40-9a4a-33e91f4b8ddb",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:52:41.377822+00:00",
+    "epoch": 1774839161.3778226,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "c63f7c75-2df5-4086-9c4d-04b650cb9635",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:52:41.387548+00:00",
+    "epoch": 1774839161.387548,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 63
+    }
+  },
+  {
+    "event_id": "1c0527c1-5e05-4cc5-9ddd-352f783e8236",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:53:01.635226+00:00",
+    "epoch": 1774839181.635226,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "36b2c46a-4bf3-4ad5-abc0-c20116d72fc4",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:53:01.643205+00:00",
+    "epoch": 1774839181.6432052,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 64
+    }
+  },
+  {
+    "event_id": "fbd6fa03-d2a5-4758-b45d-0f75eeaf1759",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:53:21.868223+00:00",
+    "epoch": 1774839201.868223,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "cbff71bb-08cd-4e60-8697-7f89c4606560",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:53:21.880805+00:00",
+    "epoch": 1774839201.880806,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 65
+    }
+  },
+  {
+    "event_id": "fa2c819f-ff40-404c-b2c4-15fcfe9d4873",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:53:42.124871+00:00",
+    "epoch": 1774839222.1248717,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "81d193c0-1891-4c16-9629-995bd48377ed",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:53:42.134065+00:00",
+    "epoch": 1774839222.1340656,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 66
+    }
+  },
+  {
+    "event_id": "2f2c4d04-a0ce-4a4a-a7e1-db77e4422268",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:54:02.379749+00:00",
+    "epoch": 1774839242.3797495,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "cae4bccf-a2a5-47ff-816e-a22415729b0e",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:54:02.390581+00:00",
+    "epoch": 1774839242.390581,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 67
+    }
+  },
+  {
+    "event_id": "4048180a-69a4-4565-9022-2a3cb6764500",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:54:22.628817+00:00",
+    "epoch": 1774839262.6288176,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "33a1cd0d-4c29-4689-b2cd-471a5f65dd67",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:54:22.643804+00:00",
+    "epoch": 1774839262.6438048,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 68
+    }
+  },
+  {
+    "event_id": "6fd03e52-0160-40ce-b0df-f434f43cfc35",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:54:42.886193+00:00",
+    "epoch": 1774839282.8861938,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "314276d6-e579-4d37-a3ff-37334ff795ca",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:54:42.892521+00:00",
+    "epoch": 1774839282.8925214,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 69
+    }
+  },
+  {
+    "event_id": "d6d8e1d7-7ad1-4b36-848f-530c6c9e71fd",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:55:03.140491+00:00",
+    "epoch": 1774839303.1404915,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "c5ecb00e-b156-4820-b999-17535b0f808b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:55:03.147186+00:00",
+    "epoch": 1774839303.1471863,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 70
+    }
+  },
+  {
+    "event_id": "8146c81b-08d8-4511-b783-831417323570",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T02:55:07.041781+00:00",
+    "epoch": 1774839307.041782,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": false
+    }
+  },
+  {
+    "event_id": "35a0cb3c-95ae-40c7-839b-f71031b6de1d",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T02:55:09.458309+00:00",
+    "epoch": 1774839309.4583094,
+    "data": {
+      "pod": "demo-pod-node",
+      "failure_type": "NodeNotReady",
+      "action": "hitl_required",
+      "approved": false
+    }
+  },
+  {
+    "event_id": "44b5d18b-1578-4f1b-9b54-2aa7e30b174d",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T02:55:18.480628+00:00",
+    "epoch": 1774839318.4806285,
+    "data": {
+      "pod": "demo-pod-node",
+      "failure_type": "NodeNotReady",
+      "action": "hitl_required",
+      "approved": false
+    }
+  },
+  {
+    "event_id": "cc78dbd9-a866-4e0a-9980-5f307d4cc581",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:55:23.393933+00:00",
+    "epoch": 1774839323.3939338,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e7e9af73-af9b-4e3b-b306-61c61fd5d980",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:55:23.402113+00:00",
+    "epoch": 1774839323.4021132,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 71
+    }
+  },
+  {
+    "event_id": "5eaf2821-3d2a-45d4-b62b-6787dfd0c900",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T02:55:29.750356+00:00",
+    "epoch": 1774839329.7503564,
+    "data": {
+      "pod": "demo-pod-imag",
+      "failure_type": "ImagePullBackOff",
+      "action": "alert_human",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "ed997a20-13d0-4fb0-9619-c3da1c7662bb",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:55:43.644255+00:00",
+    "epoch": 1774839343.6442556,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8ecf1dca-7806-4381-b8ae-df5101ae659f",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:55:43.650017+00:00",
+    "epoch": 1774839343.650017,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 72
+    }
+  },
+  {
+    "event_id": "ade1cdd6-1c6c-46ac-9f09-0ce00c23754d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:56:03.889022+00:00",
+    "epoch": 1774839363.889022,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "a1cdffea-3eaf-47ac-b4a4-0c0580d6a86e",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:56:03.902879+00:00",
+    "epoch": 1774839363.9028792,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 73
+    }
+  },
+  {
+    "event_id": "55d1d627-13fb-4f48-aab4-3ac56559d738",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:56:24.142830+00:00",
+    "epoch": 1774839384.1428306,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "3909a1c4-57ec-4cd9-8884-e182d71e0151",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:56:24.149346+00:00",
+    "epoch": 1774839384.1493468,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 74
+    }
+  },
+  {
+    "event_id": "5a240cc4-0e95-4909-bfb9-73a2e0d558b7",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:56:44.400999+00:00",
+    "epoch": 1774839404.4009993,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "a1f4c61d-e533-43c9-a35c-c37e4b5a0ecb",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:56:44.413640+00:00",
+    "epoch": 1774839404.41364,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 75
+    }
+  },
+  {
+    "event_id": "626945d7-fc44-436d-adf0-fbc2860de78f",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:57:04.647586+00:00",
+    "epoch": 1774839424.6475868,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "ba2971f7-ee98-4423-a546-05c8994b8255",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:57:04.658290+00:00",
+    "epoch": 1774839424.6582901,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 76
+    }
+  },
+  {
+    "event_id": "43a85bfb-63b1-4916-9909-dd0a94e726b7",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:57:24.896920+00:00",
+    "epoch": 1774839444.896921,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "4c5b218f-7121-4229-b077-c7442da77f37",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:57:24.904014+00:00",
+    "epoch": 1774839444.904014,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 77
+    }
+  },
+  {
+    "event_id": "7e0bee15-77fc-4cc3-a573-555a19a0c0e2",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:57:45.146994+00:00",
+    "epoch": 1774839465.1469946,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "38a0a7f6-af43-4ffd-8b0f-216f9df592db",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:57:45.160780+00:00",
+    "epoch": 1774839465.1607802,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 78
+    }
+  },
+  {
+    "event_id": "cbb2b872-31b6-4c49-8723-a51dbd4086e1",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:58:05.407828+00:00",
+    "epoch": 1774839485.4078283,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "b9a96c8e-28e8-4590-ac8f-e63cdd55bf3c",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:58:05.417195+00:00",
+    "epoch": 1774839485.4171953,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 79
+    }
+  },
+  {
+    "event_id": "8c6da00a-b1d1-404c-92db-3d6ee7b3455d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:58:25.658879+00:00",
+    "epoch": 1774839505.6588795,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "6791244c-98af-4baf-b698-6f35f59770a4",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:58:25.666700+00:00",
+    "epoch": 1774839505.6667001,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 80
+    }
+  },
+  {
+    "event_id": "c39a796b-ea60-44ef-9606-e89a6e76de5e",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:58:45.918540+00:00",
+    "epoch": 1774839525.9185407,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "9b59895f-23be-46d9-9e4c-da0f459f15c9",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:58:45.930496+00:00",
+    "epoch": 1774839525.930496,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 81
+    }
+  },
+  {
+    "event_id": "03e8d41c-20b2-4388-9758-b464b8222b36",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:59:06.179127+00:00",
+    "epoch": 1774839546.179127,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "ab37aebc-7ea9-4ce2-bc5f-7121cfebd895",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:59:06.187790+00:00",
+    "epoch": 1774839546.1877904,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 82
+    }
+  },
+  {
+    "event_id": "3ff661eb-c7d1-4a6c-9c54-dd6951ea5520",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:59:26.433640+00:00",
+    "epoch": 1774839566.43364,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "6d913a18-1d18-49fc-ab1e-cc7ba622a0cb",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:59:26.444348+00:00",
+    "epoch": 1774839566.4443483,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 83
+    }
+  },
+  {
+    "event_id": "2ab2053e-0a02-4338-921f-6a3db5b2378a",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T02:59:46.687591+00:00",
+    "epoch": 1774839586.687591,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e9ec059a-fe5b-424b-bc88-692efd1f2888",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T02:59:46.694698+00:00",
+    "epoch": 1774839586.694698,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 84
+    }
+  },
+  {
+    "event_id": "19a7dd15-4e7a-46fb-9a7e-9fd939063593",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:00:06.935327+00:00",
+    "epoch": 1774839606.9353275,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "f4bc4e76-2cd6-4452-843d-358a5e9aaa93",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:00:06.947933+00:00",
+    "epoch": 1774839606.947933,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 85
+    }
+  },
+  {
+    "event_id": "7c3df465-af9c-4906-aa41-8a29120a2976",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:00:27.190589+00:00",
+    "epoch": 1774839627.1905897,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "f2067a31-6b37-4598-96b1-ec3ed9e70fe1",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:00:27.201601+00:00",
+    "epoch": 1774839627.2016017,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 86
+    }
+  },
+  {
+    "event_id": "6658105a-37ed-4782-8581-a978b605d0bb",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:00:47.444837+00:00",
+    "epoch": 1774839647.4448376,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e740405c-cd85-4304-b0e3-35f350c6e291",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:00:47.458467+00:00",
+    "epoch": 1774839647.4584677,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 87
+    }
+  },
+  {
+    "event_id": "52880f1e-71c1-429e-a40a-b16c966641f0",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:01:07.698938+00:00",
+    "epoch": 1774839667.6994848,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "547e28ca-b618-4a3b-833b-274ed9d84631",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:01:07.706551+00:00",
+    "epoch": 1774839667.7065516,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 88
+    }
+  },
+  {
+    "event_id": "a6bb024a-1f81-4ea0-846d-b3ea4305c01e",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:01:27.964827+00:00",
+    "epoch": 1774839687.964827,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "263c0c27-dd49-4270-9ea6-aebd4bb3555c",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:01:27.971599+00:00",
+    "epoch": 1774839687.9715993,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 89
+    }
+  },
+  {
+    "event_id": "9b964bd2-031e-4250-9596-e471b9b95c32",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:01:48.232989+00:00",
+    "epoch": 1774839708.2329895,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "126f82ab-e5e5-47c0-8056-f3d779fafec4",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:01:48.243999+00:00",
+    "epoch": 1774839708.2439995,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 90
+    }
+  },
+  {
+    "event_id": "a429ac7e-6a6a-4650-80ed-100d03314633",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:02:08.499442+00:00",
+    "epoch": 1774839728.499442,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8e0026ef-1d8c-4e20-acf6-b18e88c91673",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:02:08.514062+00:00",
+    "epoch": 1774839728.5140626,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 91
+    }
+  },
+  {
+    "event_id": "51f2142d-0df7-454f-a40c-85bc61057e68",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:02:28.759662+00:00",
+    "epoch": 1774839748.7596626,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "20891714-f37a-4a9d-b0fd-fe25aa40f809",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:02:28.771261+00:00",
+    "epoch": 1774839748.7712612,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 92
+    }
+  },
+  {
+    "event_id": "1df3db29-1e03-4df7-a772-713f14cc29c1",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:02:48.998549+00:00",
+    "epoch": 1774839768.9985495,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "51c08a8a-723d-45a6-bd4d-363303bf8a31",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:02:49.006942+00:00",
+    "epoch": 1774839769.0069425,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 93
+    }
+  },
+  {
+    "event_id": "8f38dc85-9ba5-4e64-b064-36effdc438e8",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:03:09.241352+00:00",
+    "epoch": 1774839789.241352,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "94d30764-38a7-41f0-b029-d076d457e0bb",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:03:09.251391+00:00",
+    "epoch": 1774839789.2513914,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 94
+    }
+  },
+  {
+    "event_id": "b1d5bb10-14ce-4e8d-8651-2de7caee5573",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:03:29.495188+00:00",
+    "epoch": 1774839809.4951882,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8fe24465-3076-4814-9ac0-04cba65c1624",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:03:29.501956+00:00",
+    "epoch": 1774839809.501957,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 95
+    }
+  },
+  {
+    "event_id": "e6e777a2-10ec-46e3-a1b8-afa3584d23f8",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:03:49.730309+00:00",
+    "epoch": 1774839829.730309,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "431a0642-2c5c-41dd-94a1-ee38a6a00af5",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:03:49.742557+00:00",
+    "epoch": 1774839829.7425575,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 96
+    }
+  },
+  {
+    "event_id": "6cbfe8e2-afaa-4c40-b5bc-549bbce2825d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:04:09.984650+00:00",
+    "epoch": 1774839849.9846501,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8ac9e1f6-4f71-4ce0-9ba2-899b1859d53f",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:04:09.992600+00:00",
+    "epoch": 1774839849.9926002,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 97
+    }
+  },
+  {
+    "event_id": "9018609e-05b8-4486-9161-65dd22cbd6be",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:04:30.227372+00:00",
+    "epoch": 1774839870.2273722,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "9af1bdcd-63a6-4f15-bdea-9cd0a5876295",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:04:30.234667+00:00",
+    "epoch": 1774839870.2346673,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 98
+    }
+  },
+  {
+    "event_id": "44efc58f-d4ac-4a0b-909d-d604445489e4",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:04:50.474068+00:00",
+    "epoch": 1774839890.4740686,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "bbd750c4-0f74-4026-b849-39bbec1dceac",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:04:50.480643+00:00",
+    "epoch": 1774839890.480643,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 99
+    }
+  },
+  {
+    "event_id": "25e58b0e-f645-4bf0-af9f-2b80b3b7229e",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:05:10.744822+00:00",
+    "epoch": 1774839910.7448227,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "955bacad-efa7-44cc-9de6-b98b200e8440",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:05:10.752327+00:00",
+    "epoch": 1774839910.7523274,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 100
+    }
+  },
+  {
+    "event_id": "24c3186d-c287-45d9-96a9-e7b8a2e17617",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:05:30.991234+00:00",
+    "epoch": 1774839930.9912343,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "0783b577-e1e8-4978-8aa2-d4e9c71c4315",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:05:30.997359+00:00",
+    "epoch": 1774839930.997359,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 101
+    }
+  },
+  {
+    "event_id": "5eb12d61-01e0-4792-a759-223e88b0b445",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:05:51.238616+00:00",
+    "epoch": 1774839951.2386162,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "fa56bf53-33d4-4f42-be9a-5862af77277d",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:05:51.248530+00:00",
+    "epoch": 1774839951.2485306,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 102
+    }
+  },
+  {
+    "event_id": "70aca92e-135c-47fc-b2b0-ae51bdbcd3bf",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:06:11.502054+00:00",
+    "epoch": 1774839971.5020545,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "46b380eb-3275-40f5-9a32-c4487a07aa03",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:06:11.514733+00:00",
+    "epoch": 1774839971.5147333,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 103
+    }
+  },
+  {
+    "event_id": "3846a6c6-7867-4cca-a111-934985d799bc",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:06:31.776086+00:00",
+    "epoch": 1774839991.776086,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "84301a13-bd65-4bf9-8163-915df520e6a1",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:06:31.785544+00:00",
+    "epoch": 1774839991.785544,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 104
+    }
+  },
+  {
+    "event_id": "974920b3-2706-4826-9d74-1f3460c962e7",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:06:52.023647+00:00",
+    "epoch": 1774840012.023647,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "97b86240-3f94-47ee-a8bb-c048482afb85",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:06:52.030721+00:00",
+    "epoch": 1774840012.030722,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 105
+    }
+  },
+  {
+    "event_id": "337439e7-7b7d-44dc-b3dc-511da8366d74",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:07:12.276531+00:00",
+    "epoch": 1774840032.2765315,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "19d4157f-736b-4235-a962-ecf8b0ff7cca",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:07:12.296179+00:00",
+    "epoch": 1774840032.2961793,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 106
+    }
+  },
+  {
+    "event_id": "bde24757-4fba-4b85-aa3a-e1c134beea70",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:07:32.549771+00:00",
+    "epoch": 1774840052.5497715,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "6007551e-ae33-437d-9bb3-3b4bf5bc4082",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:07:32.563501+00:00",
+    "epoch": 1774840052.5635011,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 107
+    }
+  },
+  {
+    "event_id": "cb81a224-7f81-45ae-b665-3cc7b09563a4",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:07:52.833478+00:00",
+    "epoch": 1774840072.833479,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "af0db759-e516-47cf-a400-0517de1f1baa",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:07:52.849253+00:00",
+    "epoch": 1774840072.8492532,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 108
+    }
+  },
+  {
+    "event_id": "fef0f4ed-5b83-4630-8a86-5ee463b89097",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:08:13.098507+00:00",
+    "epoch": 1774840093.0985074,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "d57559b2-9db8-42d5-a63a-01c8aca625c4",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:08:13.115144+00:00",
+    "epoch": 1774840093.115144,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 109
+    }
+  },
+  {
+    "event_id": "67b8eff2-8e64-4249-a527-b9897e99395d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:08:33.393133+00:00",
+    "epoch": 1774840113.3931336,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "a4dc95ea-48b3-4a10-80ee-48e15afd1965",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:08:33.407182+00:00",
+    "epoch": 1774840113.4071827,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 110
+    }
+  },
+  {
+    "event_id": "7abb17be-8ea7-4423-a3e5-7a6cb2828965",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:08:53.696506+00:00",
+    "epoch": 1774840133.6965067,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "94b4414a-0c72-4c76-a28b-7c331cfe7e99",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:08:53.705171+00:00",
+    "epoch": 1774840133.705172,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 111
+    }
+  },
+  {
+    "event_id": "1005e6bf-f74f-4b3a-988f-e20d42c09436",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:09:13.984434+00:00",
+    "epoch": 1774840153.9844346,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "d5e1e5df-4fed-4674-a256-5cf29c3d4917",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:09:14.000320+00:00",
+    "epoch": 1774840154.0003204,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 112
+    }
+  },
+  {
+    "event_id": "5c16cf71-23f6-477b-abdd-a27ece2f8e05",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:09:34.257546+00:00",
+    "epoch": 1774840174.257546,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "264734a2-212b-459d-b5c4-4a77abedff17",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:09:34.275232+00:00",
+    "epoch": 1774840174.2752326,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 113
+    }
+  },
+  {
+    "event_id": "fc4dc894-ee42-45b0-bc34-2bef7b846793",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:09:54.520588+00:00",
+    "epoch": 1774840194.5205886,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "7eee74e0-6948-453c-aa3d-3f2928f9b880",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:09:54.535373+00:00",
+    "epoch": 1774840194.535374,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 114
+    }
+  },
+  {
+    "event_id": "01fb2a70-79e1-48c2-91f0-15743396cfb3",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:10:14.782544+00:00",
+    "epoch": 1774840214.7825444,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "588dea35-5afc-43d4-a4ce-ad1fdc2aa98e",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:10:14.793580+00:00",
+    "epoch": 1774840214.7935803,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 115
+    }
+  },
+  {
+    "event_id": "213a265c-4cb5-42d1-8d3a-756015d3386f",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:10:35.048517+00:00",
+    "epoch": 1774840235.048518,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "0ce55125-07d6-497c-a996-221ca934d90d",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:10:35.063244+00:00",
+    "epoch": 1774840235.0642471,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 116
+    }
+  },
+  {
+    "event_id": "2ed195c8-9fd2-447d-9b71-e81d9f1eb0a2",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:10:55.306950+00:00",
+    "epoch": 1774840255.3069499,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "7319f055-b9e9-405f-9d5f-24e3ae093c8b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:10:55.319334+00:00",
+    "epoch": 1774840255.319334,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 117
+    }
+  },
+  {
+    "event_id": "62040d06-b1aa-46d1-9f5a-d160a001baec",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:11:15.582500+00:00",
+    "epoch": 1774840275.5825007,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "07cc1f5c-101a-403a-92ac-4501000356d9",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:11:15.598707+00:00",
+    "epoch": 1774840275.5987072,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 118
+    }
+  },
+  {
+    "event_id": "fc057c6a-fc71-4e07-96b5-0c10c6f9f869",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:11:35.845924+00:00",
+    "epoch": 1774840295.8459241,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "5e46e722-fcdf-46f4-a586-716a25157a6f",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:11:35.860709+00:00",
+    "epoch": 1774840295.86071,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 119
+    }
+  },
+  {
+    "event_id": "61380614-4efa-454f-978c-8d7ae39b191d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:11:56.112931+00:00",
+    "epoch": 1774840316.1129315,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "b1cae6c5-2f09-4160-a6ca-21ad71430da9",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:11:56.131004+00:00",
+    "epoch": 1774840316.1310043,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 120
+    }
+  },
+  {
+    "event_id": "2de85c31-65f9-4ec5-b39a-750fbd504314",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:12:16.378083+00:00",
+    "epoch": 1774840336.3780832,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "9d392190-a8e3-4057-991c-9076ed2edd75",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:12:16.396819+00:00",
+    "epoch": 1774840336.396819,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 121
+    }
+  },
+  {
+    "event_id": "be60c107-6157-4ae4-b8a2-d1282ba5bed4",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:12:36.642223+00:00",
+    "epoch": 1774840356.6422238,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "655281bb-ea28-45c0-aed1-2fc144fbf683",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:12:36.659494+00:00",
+    "epoch": 1774840356.6594944,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 122
+    }
+  },
+  {
+    "event_id": "36fe95c3-d557-4623-8ac6-a62c2d7735b3",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:12:56.906346+00:00",
+    "epoch": 1774840376.9063466,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "c6e30983-aa85-4044-b8a9-af13500beb36",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:12:56.917914+00:00",
+    "epoch": 1774840376.9179146,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 123
+    }
+  },
+  {
+    "event_id": "2f7d1e25-9547-4089-935f-683ba12fade7",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:13:17.171923+00:00",
+    "epoch": 1774840397.1724696,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "106f0d2e-50fc-4628-8575-f662289851cf",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:13:17.190085+00:00",
+    "epoch": 1774840397.1900854,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 124
+    }
+  },
+  {
+    "event_id": "81f44c44-670f-4ac6-a9ba-593eb502c037",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:13:37.467452+00:00",
+    "epoch": 1774840417.4674528,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "04bdb719-9942-48d9-9b5c-b05c1f59af81",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:13:37.480111+00:00",
+    "epoch": 1774840417.4801114,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 125
+    }
+  },
+  {
+    "event_id": "77473a77-ff20-4aea-9d4b-ea7676c858e4",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:13:57.726059+00:00",
+    "epoch": 1774840437.7260592,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "b4f9a730-336f-4099-9d83-04fb047c1b28",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:13:57.736771+00:00",
+    "epoch": 1774840437.7367713,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 126
+    }
+  },
+  {
+    "event_id": "c630b595-015c-490c-a44f-874e5c290e61",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:14:17.971776+00:00",
+    "epoch": 1774840457.9717765,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "32c3e156-5a34-4c31-b077-3279a30347be",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:14:17.980819+00:00",
+    "epoch": 1774840457.9808197,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 127
+    }
+  },
+  {
+    "event_id": "fb2fe62a-f239-42ee-8eb6-307b3fa62bb5",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:14:38.233887+00:00",
+    "epoch": 1774840478.233887,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "6b343b40-bcb9-47bb-8264-2f61b01db0ec",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:14:38.240343+00:00",
+    "epoch": 1774840478.2403433,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 128
+    }
+  },
+  {
+    "event_id": "dea1f445-b69f-4136-84b3-98791d0c8863",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:14:58.490055+00:00",
+    "epoch": 1774840498.490056,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "a7edbd89-b1e8-4d1d-bd99-966734ca55cf",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:14:58.501409+00:00",
+    "epoch": 1774840498.5014098,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 129
+    }
+  },
+  {
+    "event_id": "76d12fbf-c9b0-45da-a5e7-986712867613",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:15:18.743051+00:00",
+    "epoch": 1774840518.743051,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "acdb9139-ebf0-4589-87e0-b43c4be66e29",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:15:18.750728+00:00",
+    "epoch": 1774840518.7507286,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 130
+    }
+  },
+  {
+    "event_id": "1da531b8-0d25-4e22-8ca3-e583546cd204",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:15:39.003881+00:00",
+    "epoch": 1774840539.0038817,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "db736d45-b0f8-4490-a26b-45173dd235ee",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:15:39.015310+00:00",
+    "epoch": 1774840539.01531,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 131
+    }
+  },
+  {
+    "event_id": "4a901aab-bea2-49f7-beba-e4e285009b16",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:15:59.307409+00:00",
+    "epoch": 1774840559.3074088,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "863795c6-00c5-4b22-a1bf-71f60d021eb7",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:15:59.322033+00:00",
+    "epoch": 1774840559.322034,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 132
+    }
+  },
+  {
+    "event_id": "848dbf74-6b7c-4162-80f3-5d40e21f1089",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:16:19.559893+00:00",
+    "epoch": 1774840579.5598938,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "33925398-d2d8-4c49-ad65-45b4d0c338fe",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:16:19.575456+00:00",
+    "epoch": 1774840579.5754566,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 133
+    }
+  },
+  {
+    "event_id": "64443a8f-faba-4769-a892-5ad6058a1fc0",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:16:39.816041+00:00",
+    "epoch": 1774840599.8160415,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "8b14239b-0a5a-4ec9-9774-a866dce1b319",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:16:39.830247+00:00",
+    "epoch": 1774840599.830247,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 134
+    }
+  },
+  {
+    "event_id": "8ae37f65-249a-4538-ad9f-381a962bc872",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:17:00.075274+00:00",
+    "epoch": 1774840620.0752745,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "81757979-6350-481d-83bc-965b9c6c9e78",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:17:00.082707+00:00",
+    "epoch": 1774840620.0827072,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 135
+    }
+  },
+  {
+    "event_id": "57cab075-4dfc-4f2e-b4ea-f4ab334c1cc9",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:17:20.332905+00:00",
+    "epoch": 1774840640.3329053,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "754ae4f5-da60-4da7-b5c7-5f8bc10e2c1f",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:17:20.340552+00:00",
+    "epoch": 1774840640.3405528,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 136
+    }
+  },
+  {
+    "event_id": "56e72f30-dc7f-4aa2-9f40-9a6a4da6583d",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:17:40.617732+00:00",
+    "epoch": 1774840660.6177323,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "661c71fa-acaf-44e2-8125-ad061611df8d",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:17:40.633618+00:00",
+    "epoch": 1774840660.6336184,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 137
+    }
+  },
+  {
+    "event_id": "f53ba580-45ef-413f-9fbd-7adddd8048ca",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:18:00.909439+00:00",
+    "epoch": 1774840680.9094396,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "b2457d51-8489-4705-8e01-0c5c8969de42",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:18:00.922754+00:00",
+    "epoch": 1774840680.922754,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 138
+    }
+  },
+  {
+    "event_id": "6ccb970b-8c2f-4cfb-987b-3571d063c090",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:18:21.217059+00:00",
+    "epoch": 1774840701.2170596,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "2fe06563-b567-4512-a4c1-8712c1088280",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:18:21.230263+00:00",
+    "epoch": 1774840701.230263,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 139
+    }
+  },
+  {
+    "event_id": "d95a85a8-7cfb-445e-acd2-820cb6e3fafb",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:18:41.485983+00:00",
+    "epoch": 1774840721.4859831,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "e863706b-fb22-44a8-8b5b-253db18c8837",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:18:41.502801+00:00",
+    "epoch": 1774840721.5028014,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 140
+    }
+  },
+  {
+    "event_id": "91ec7e6d-7a48-4340-97f9-423ace982469",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:19:01.740068+00:00",
+    "epoch": 1774840741.7400684,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "4510bfd9-b8f2-45c7-8bf0-ca287af1a4eb",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:19:01.749254+00:00",
+    "epoch": 1774840741.7492545,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 141
+    }
+  },
+  {
+    "event_id": "bfb3122e-9319-4b1a-9bf6-e639ebad5756",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T03:19:10.563553+00:00",
+    "epoch": 1774840750.5635533,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "4bef0c6b-1813-4f46-9041-cd7c3fb9ed24",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:19:22.004152+00:00",
+    "epoch": 1774840762.0041523,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "71842a12-8e6c-4a0b-81fc-28e58aa7f1e1",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:19:22.014925+00:00",
+    "epoch": 1774840762.014925,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 142
+    }
+  },
+  {
+    "event_id": "6d0a55cd-ee8e-4d08-b16d-2ded05b4355c",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:19:42.261590+00:00",
+    "epoch": 1774840782.2615905,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "efe170c9-8673-4cf4-ac49-3f6982a607c3",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:19:42.272327+00:00",
+    "epoch": 1774840782.2723274,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 143
+    }
+  },
+  {
+    "event_id": "94fbf00c-5750-409f-82ee-f3e3bd9219e8",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T03:20:01.404325+00:00",
+    "epoch": 1774840801.404325,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "188684c4-74b9-4d88-a992-8c96f0b02494",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:20:02.528638+00:00",
+    "epoch": 1774840802.5286381,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "29b321e8-435c-4dff-8a10-b312a47ff022",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:20:02.554992+00:00",
+    "epoch": 1774840802.5549927,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 144
+    }
+  },
+  {
+    "event_id": "4a7c5c9b-dbd1-4b7e-bc75-9830572386b1",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:20:22.798476+00:00",
+    "epoch": 1774840822.798476,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "18ba15ef-ac57-4850-9ef4-c4e14aa74e0b",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:20:22.805657+00:00",
+    "epoch": 1774840822.8056571,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 145
+    }
+  },
+  {
+    "event_id": "15e9a65d-a6ae-4214-8def-1da3b5cdbd9c",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:20:43.059809+00:00",
+    "epoch": 1774840843.0598094,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "c5fc3a33-f02a-4042-9acf-292ea6690e1e",
+    "event_type": "AGENT_ERROR",
+    "timestamp": "2026-03-30T03:20:43.077568+00:00",
+    "epoch": 1774840843.0775688,
+    "data": {
+      "error": "'Anomaly' object has no attribute 'pod_name'",
+      "cycle": 146
+    }
+  },
+  {
+    "event_id": "329f4dfc-24ad-4734-9bad-dea81daff992",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T03:22:35.889471+00:00",
+    "epoch": 1774840955.889472,
+    "data": {
+      "pod": "demo-pod-oomk",
+      "failure_type": "OOMKilled",
+      "action": "patch_memory",
+      "approved": false
+    }
+  },
+  {
+    "event_id": "25826256-e859-4ef6-b69e-43dd1380201c",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T03:42:50.493601+00:00",
+    "epoch": 1774842170.4936013,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "f4f9b073-56d8-4617-8724-caa11f511cf0",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T03:43:06.683679+00:00",
+    "epoch": 1774842186.68368,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "0d719e5f-6f0e-4e9c-a6e5-d6e37a61beba",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T04:00:17.897749+00:00",
+    "epoch": 1774843217.8977494,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "a0ff79a5-4429-4823-9054-1b302a45b915",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T04:00:22.392581+00:00",
+    "epoch": 1774843222.3925812,
+    "data": {
+      "pod": "crash-loop-pod",
+      "root_cause": "The container is exiting with a non-zero exit code (1) due to a deliberate error in the command script."
+    }
+  },
+  {
+    "event_id": "25e55717-6ae7-4078-b4a4-274d08c62a3b",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T04:01:22.992001+00:00",
+    "epoch": 1774843282.9920013,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "448000c3-13e2-4f89-b088-6de4b709070c",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T04:01:27.678959+00:00",
+    "epoch": 1774843287.6789594,
+    "data": {
+      "pod": "crash-loop-pod",
+      "root_cause": "The container is intentionally exiting with a non-zero status code due to the command \"echo 'FATAL: config not found'; exit 1\" in the container's command."
+    }
+  },
+  {
+    "event_id": "e21683e6-a8eb-473b-a76d-38866215b418",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T04:06:19.054483+00:00",
+    "epoch": 1774843579.0544837,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "ff871c21-700e-4f18-bc9d-21062fc773ee",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T04:06:23.514744+00:00",
+    "epoch": 1774843583.5147443,
+    "data": {
+      "pod": "crash-loop-pod",
+      "root_cause": "The container is crashing due to the command \"exit 1\" which is intentionally causing the container to terminate with a non-zero exit code."
+    }
+  },
+  {
+    "event_id": "4b1deff9-7e33-4c84-9662-bc3decccd24f",
+    "event_type": "SAFETY_GATE",
+    "timestamp": "2026-03-30T04:06:23.539940+00:00",
+    "epoch": 1774843583.5399404,
+    "data": {
+      "pod": "crash-loop-pod",
+      "action": "restart_pod",
+      "blast_radius": "MEDIUM",
+      "confidence": 0.9,
+      "decision": "AUTO"
+    }
+  },
+  {
+    "event_id": "c59382d6-532d-4a7d-801f-c05ae1895d13",
+    "event_type": "AUTO_EXECUTE",
+    "timestamp": "2026-03-30T04:06:24.243800+00:00",
+    "epoch": 1774843584.2438006,
+    "data": {
+      "pod": "crash-loop-pod",
+      "action": "restart_pod",
+      "success": true,
+      "output": "pod \"crash-loop-pod\" deleted from default namespace"
+    }
+  },
+  {
+    "event_id": "9d19ad71-a80e-4c06-81db-ab89ba48288b",
+    "event_type": "RESOLUTION_COMPLETE",
+    "timestamp": "2026-03-30T04:08:25.005645+00:00",
+    "epoch": 1774843705.0056458,
+    "data": {
+      "pod": "crash-loop-pod",
+      "healthy": false
+    }
+  },
+  {
+    "event_id": "697945e0-78ff-4e1e-9e15-0aa8b715eee4",
+    "event_type": "CYCLE_COMPLETE",
+    "timestamp": "2026-03-30T04:08:25.013500+00:00",
+    "epoch": 1774843705.0135005,
+    "data": {
+      "pod": "cluster",
+      "result": "{'result': 're_crashed', 'success': False, 'output': 'pod \"crash-loop-pod\" deleted from default namespace'}"
+    }
+  },
+  {
+    "event_id": "4f6ad06f-c8a0-4064-817a-52197bfd6b55",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T04:12:37.143984+00:00",
+    "epoch": 1774843957.1439843,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "eef99e6a-a3c7-4ef7-bbc2-f82842723ae2",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T04:12:41.609912+00:00",
+    "epoch": 1774843961.6099126,
+    "data": {
+      "pod": "imagepull-pod",
+      "root_cause": "The image \"thisrepo/doesnotexist:v999\" does not exist in the repository, causing the pod to fail with an ImagePullBackOff error."
+    }
+  },
+  {
+    "event_id": "6c0f64c4-b161-4460-89c7-f48c5c527da2",
+    "event_type": "SAFETY_GATE",
+    "timestamp": "2026-03-30T04:12:41.622098+00:00",
+    "epoch": 1774843961.622098,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "confidence": 0.9,
+      "decision": "HITL"
+    }
+  },
+  {
+    "event_id": "99f40997-c67c-4cbb-83b8-a59116fe6501",
+    "event_type": "HITL_REQUESTED",
+    "timestamp": "2026-03-30T04:12:41.640729+00:00",
+    "epoch": 1774843961.6407292,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "failure_type": "ImagePullBackOff"
+    }
+  },
+  {
+    "event_id": "d562f75b-0a00-4a92-83fd-202ae5da9a53",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:13:17.636661+00:00",
+    "epoch": 1774843997.636661,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "b8ce04e0-38d4-4a20-ba9b-0b2220071889",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:13:27.080871+00:00",
+    "epoch": 1774844007.080871,
+    "data": {
+      "pod": "demo-pod-imag",
+      "failure_type": "ImagePullBackOff",
+      "action": "alert_human",
+      "approved": false
+    }
+  },
+  {
+    "event_id": "689935f0-8a3f-4bf6-9f56-82a47f384e78",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:17:51.067641+00:00",
+    "epoch": 1774844271.0676413,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "2ffd3cbd-c100-4e34-aa4b-bb081aba9d3b",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:18:08.935656+00:00",
+    "epoch": 1774844288.9356563,
+    "data": {
+      "pod": "demo-pod-imag",
+      "failure_type": "ImagePullBackOff",
+      "action": "alert_human",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "591154d1-ee40-4aad-bc9e-9d164558fdeb",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T04:19:01.757884+00:00",
+    "epoch": 1774844341.7578843,
+    "data": {
+      "pod": "cluster",
+      "summary": "4 anomalies found"
+    }
+  },
+  {
+    "event_id": "a5d4b882-9121-4b4b-b0ac-81f02b0faf3a",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T04:19:05.922997+00:00",
+    "epoch": 1774844345.9229977,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-tc9jz",
+      "root_cause": "The container is intentionally crashing due to the command \"echo 'Crashing...'; sleep 2; exit 1\" which exits with a non-zero status code."
+    }
+  },
+  {
+    "event_id": "9c0ae42c-5178-4192-a7e1-1af9f599cb23",
+    "event_type": "SAFETY_GATE",
+    "timestamp": "2026-03-30T04:19:05.939394+00:00",
+    "epoch": 1774844345.9393947,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-tc9jz",
+      "action": "restart_pod",
+      "blast_radius": "MEDIUM",
+      "confidence": 0.9,
+      "decision": "AUTO"
+    }
+  },
+  {
+    "event_id": "511f28e0-7c5f-41df-be7d-3678ea2712df",
+    "event_type": "AUTO_EXECUTE",
+    "timestamp": "2026-03-30T04:19:07.047237+00:00",
+    "epoch": 1774844347.0472372,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-tc9jz",
+      "action": "restart_pod",
+      "success": true,
+      "output": "pod \"crash-loop-deploy-78c7c494cd-tc9jz\" deleted from default namespace"
+    }
+  },
+  {
+    "event_id": "eda0c4ca-3f79-4ca4-801e-fc18615abb67",
+    "event_type": "RESOLUTION_COMPLETE",
+    "timestamp": "2026-03-30T04:21:07.814126+00:00",
+    "epoch": 1774844467.8146715,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-tc9jz",
+      "healthy": false
+    }
+  },
+  {
+    "event_id": "7ddbfb9d-f84f-4ab8-a36f-0c146b982bd5",
+    "event_type": "CYCLE_COMPLETE",
+    "timestamp": "2026-03-30T04:21:07.825674+00:00",
+    "epoch": 1774844467.8256745,
+    "data": {
+      "pod": "cluster",
+      "result": "{'result': 're_crashed', 'success': False, 'output': 'pod \"crash-loop-deploy-78c7c494cd-tc9jz\" deleted from default namespace'}"
+    }
+  },
+  {
+    "event_id": "63bb0346-c20f-479f-b5af-bfb639f733ac",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T04:36:07.198071+00:00",
+    "epoch": 1774845367.1980712,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "0acd22cf-9cbd-4070-9103-b79f4f21a3ad",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T04:36:11.574282+00:00",
+    "epoch": 1774845371.574282,
+    "data": {
+      "pod": "imagepull-pod",
+      "root_cause": "The image \"thisrepo/doesnotexist:v999\" does not exist in the repository, resulting in a failed image pull."
+    }
+  },
+  {
+    "event_id": "cd27c141-bb81-48c0-8c83-386f487c3bf5",
+    "event_type": "SAFETY_GATE",
+    "timestamp": "2026-03-30T04:36:11.582191+00:00",
+    "epoch": 1774845371.582191,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "confidence": 0.9,
+      "decision": "HITL"
+    }
+  },
+  {
+    "event_id": "7c392893-0f52-4f9a-8d13-c91e1cee6031",
+    "event_type": "HITL_REQUESTED",
+    "timestamp": "2026-03-30T04:36:11.599276+00:00",
+    "epoch": 1774845371.599276,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "failure_type": "ImagePullBackOff"
+    }
+  },
+  {
+    "event_id": "0f0967c2-be6c-4e7a-8ee2-675bba1310f8",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:36:38.695153+00:00",
+    "epoch": 1774845398.6951532,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "3375365f-c04c-4578-aec6-5004f201b25b",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:36:50.915504+00:00",
+    "epoch": 1774845410.9155042,
+    "data": {
+      "pod": "demo-pod-imag",
+      "failure_type": "ImagePullBackOff",
+      "action": "alert_human",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "25b4a139-35cb-4a66-a084-e8adc57f0bc2",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:39:03.718853+00:00",
+    "epoch": 1774845543.7188535,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "d811751c-c58f-4b11-a29b-ec40ffa8e0dc",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T04:42:14.805888+00:00",
+    "epoch": 1774845734.805888,
+    "data": {
+      "pod": "cluster",
+      "summary": "4 anomalies found"
+    }
+  },
+  {
+    "event_id": "34eba536-f3ac-421a-8b35-c78a720c2837",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T04:42:19.355941+00:00",
+    "epoch": 1774845739.3559415,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-l6vgl",
+      "root_cause": "The container is intentionally crashing due to the command \"echo 'Crashing...'; sleep 2; exit 1\" which exits with a non-zero status code."
+    }
+  },
+  {
+    "event_id": "d11273a7-ceab-4007-96f2-8ce697f93a02",
+    "event_type": "SAFETY_GATE",
+    "timestamp": "2026-03-30T04:42:19.371679+00:00",
+    "epoch": 1774845739.3716798,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-l6vgl",
+      "action": "restart_pod",
+      "blast_radius": "MEDIUM",
+      "confidence": 0.9,
+      "decision": "AUTO"
+    }
+  },
+  {
+    "event_id": "84ea64bc-acbf-4d42-a6c1-becdf2e439c0",
+    "event_type": "AUTO_EXECUTE",
+    "timestamp": "2026-03-30T04:42:20.029857+00:00",
+    "epoch": 1774845740.0298579,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-l6vgl",
+      "action": "restart_pod",
+      "success": true,
+      "output": "pod \"crash-loop-deploy-78c7c494cd-l6vgl\" deleted from default namespace"
+    }
+  },
+  {
+    "event_id": "bffc8c88-ec05-4304-be3c-9a805538ff25",
+    "event_type": "RESOLUTION_COMPLETE",
+    "timestamp": "2026-03-30T04:44:30.847809+00:00",
+    "epoch": 1774845870.8478096,
+    "data": {
+      "pod": "crash-loop-deploy-78c7c494cd-l6vgl",
+      "healthy": true
+    }
+  },
+  {
+    "event_id": "861d174d-d2a1-4294-8aca-2f3da338429a",
+    "event_type": "CYCLE_COMPLETE",
+    "timestamp": "2026-03-30T04:44:30.856020+00:00",
+    "epoch": 1774845870.8560207,
+    "data": {
+      "pod": "cluster",
+      "result": "{'result': 'resolved', 'success': True, 'output': 'pod \"crash-loop-deploy-78c7c494cd-l6vgl\" deleted from default namespace'}"
+    }
+  },
+  {
+    "event_id": "0d45004d-a12b-4c41-9423-a33860e90bae",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T04:55:03.062714+00:00",
+    "epoch": 1774846503.0627146,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "356cdf93-e8e2-4c1a-9da5-c24c65bd2130",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T05:02:34.288384+00:00",
+    "epoch": 1774846954.2883847,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "c7c1ae3c-6a9a-4ebd-962c-0c9941ba4039",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T05:02:38.934062+00:00",
+    "epoch": 1774846958.9340625,
+    "data": {
+      "pod": "imagepull-pod",
+      "root_cause": "The image \"thisrepo/doesnotexist:v999\" does not exist in the repository, resulting in a pull access denied error."
+    }
+  },
+  {
+    "event_id": "e723c59d-27a0-49b2-915a-4caf79871881",
+    "event_type": "SAFETY_GATE",
+    "timestamp": "2026-03-30T05:02:38.946476+00:00",
+    "epoch": 1774846958.9464762,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "confidence": 0.9,
+      "decision": "HITL"
+    }
+  },
+  {
+    "event_id": "e410d546-9e79-42b2-a6df-699918ba5a9d",
+    "event_type": "HITL_REQUESTED",
+    "timestamp": "2026-03-30T05:02:38.978295+00:00",
+    "epoch": 1774846958.9782958,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "failure_type": "ImagePullBackOff"
+    }
+  },
+  {
+    "event_id": "3d74ad26-b491-4cb4-bd1e-a0b344777d06",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T05:07:39.015711+00:00",
+    "epoch": 1774847259.0157118,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "approved": false
+    }
+  },
+  {
+    "event_id": "537abdde-f249-4e81-89d9-0a7a6e88d1c9",
+    "event_type": "CYCLE_COMPLETE",
+    "timestamp": "2026-03-30T05:07:39.025035+00:00",
+    "epoch": 1774847259.025035,
+    "data": {
+      "pod": "cluster",
+      "result": ""
+    }
+  },
+  {
+    "event_id": "59f64397-a9bb-447a-9725-91a9ddd02e1e",
+    "event_type": "DETECT",
+    "timestamp": "2026-03-30T06:10:23.827590+00:00",
+    "epoch": 1774851023.8275905,
+    "data": {
+      "pod": "cluster",
+      "summary": "3 anomalies found"
+    }
+  },
+  {
+    "event_id": "1516db7e-737d-40dd-ade6-7ccc269d45f8",
+    "event_type": "DIAGNOSE",
+    "timestamp": "2026-03-30T06:10:28.194394+00:00",
+    "epoch": 1774851028.1943946,
+    "data": {
+      "pod": "imagepull-pod",
+      "root_cause": "The image \"thisrepo/doesnotexist:v999\" does not exist in the repository, resulting in a failed image pull."
+    }
+  },
+  {
+    "event_id": "2236c91e-4b02-4b7e-b99c-1992bf5ab24d",
+    "event_type": "SAFETY_GATE",
+    "timestamp": "2026-03-30T06:10:28.221184+00:00",
+    "epoch": 1774851028.2211843,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "confidence": 0.9,
+      "decision": "HITL"
+    }
+  },
+  {
+    "event_id": "9d33a0c8-a322-4f00-8851-f92437e402b8",
+    "event_type": "HITL_REQUESTED",
+    "timestamp": "2026-03-30T06:10:28.256350+00:00",
+    "epoch": 1774851028.25635,
+    "data": {
+      "pod": "imagepull-pod",
+      "action": "alert_human",
+      "blast_radius": "LOW",
+      "failure_type": "ImagePullBackOff"
+    }
+  },
+  {
+    "event_id": "520ebbad-978b-459b-bfb4-be5b7dc3cf6e",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T06:10:52.797947+00:00",
+    "epoch": 1774851052.7979472,
+    "data": {
+      "pod": "demo-pod-cras",
+      "failure_type": "CrashLoopBackOff",
+      "action": "restart_pod",
+      "approved": true
+    }
+  },
+  {
+    "event_id": "2cd37b7e-eddc-47e0-946f-67f3e5102e57",
+    "event_type": "HITL_DECISION",
+    "timestamp": "2026-03-30T06:11:01.450709+00:00",
+    "epoch": 1774851061.45071,
+    "data": {
+      "pod": "demo-pod-imag",
+      "failure_type": "ImagePullBackOff",
+      "action": "alert_human",
+      "approved": false
+    }
   }
 ]

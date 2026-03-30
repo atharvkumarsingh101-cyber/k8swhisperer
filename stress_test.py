@@ -21,11 +21,13 @@ time.sleep(30)
 
 print("\nRunning agent against all failures...\n")
 
-from hitl_server import start_server_background
+# --- UPDATED IMPORTS ---
+from hitl_server import run_hitl_server
 from agent.graph import graph
 from agent.state import ClusterState
 
-start_server_background()
+# --- UPDATED FUNCTION CALL ---
+run_hitl_server()
 
 initial_state: ClusterState = {
     "events": [],
@@ -43,6 +45,6 @@ result = graph.invoke(initial_state, config=config)
 print(f"\nStress test complete. Result: {result.get('result', 'n/a')}")
 
 print("\nCleaning up...")
-subprocess.run(["kubectl", "delete", "pod", "crash-loop-pod",
-                "pending-pod", "imagepull-pod", "--ignore-not-found"])
+for yaml in YAMLS:
+    subprocess.run(["kubectl", "delete", "-f", yaml, "--ignore-not-found"])
 print("Done.")

@@ -17,14 +17,22 @@ def get_pod_status(pod: dict) -> dict:
     restart_count = 0
     waiting_reason = ""
     waiting_message = ""
+    last_terminated_reason = ""  # FIX: track terminated.reason from lastState
 
     for cs in container_statuses:
         restart_count += cs.get("restartCount", 0)
+
         state = cs.get("state", {})
         waiting = state.get("waiting", {})
         if waiting:
             waiting_reason = waiting.get("reason", "")
             waiting_message = waiting.get("message", "")
+
+        # FIX: OOMKilled appears in lastState.terminated.reason, not in waiting
+        last_state = cs.get("lastState", {})
+        terminated = last_state.get("terminated", {})
+        if terminated.get("reason"):
+            last_terminated_reason = terminated["reason"]
 
     return {
         "name": name,
@@ -33,6 +41,7 @@ def get_pod_status(pod: dict) -> dict:
         "restart_count": restart_count,
         "waiting_reason": waiting_reason,
         "waiting_message": waiting_message,
+        "last_terminated_reason": last_terminated_reason,  # FIX: new field
     }
 
 
@@ -52,6 +61,7 @@ def detect_failures(pods_json: dict) -> list:
         restart_count = info["restart_count"]
         waiting_reason = info["waiting_reason"]
         waiting_message = info["waiting_message"]
+        last_terminated_reason = info["last_terminated_reason"]  # FIX
 
         # CrashLoopBackOff
         if waiting_reason == "CrashLoopBackOff" or restart_count >= 5:
@@ -77,8 +87,8 @@ def detect_failures(pods_json: dict) -> list:
                 restart_count=restart_count,
             ))
 
-        # OOMKilled
-        elif waiting_reason == "OOMKilled":
+        # FIX: OOMKilled — must check lastState.terminated.reason, NOT waiting.reason
+        elif last_terminated_reason == "OOMKilled":
             anomalies.append(Anomaly(
                 pod=name,
                 namespace=namespace,
@@ -149,7 +159,6 @@ def detect_node_issues(nodes_list: list) -> list:
 def detect_deployment_stall(deployments_json: dict) -> list:
     """
     Detect deployments that are stalled (0 ready pods out of desired).
-    Expects the full JSON from kubectl get deployments -A -o json.
     """
     stalls = []
     items = deployments_json.get("items", []) if isinstance(deployments_json, dict) else []

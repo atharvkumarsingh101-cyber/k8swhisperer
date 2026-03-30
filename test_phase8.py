@@ -124,7 +124,7 @@ def test_logger():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Phase 2 — Diagnose  (signature: diagnose(pod_name, namespace, failure_type))
+# Phase 2 — Diagnose
 # ─────────────────────────────────────────────────────────────────────────────
 PRIMARY_RESPONSE = """\
 ROOT_CAUSE: Container keeps OOMKilling due to memory leak in app
@@ -420,11 +420,8 @@ def test_executor_actions():
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Phase 6 — HITL Server
-# Routes: GET /hitl/<token>   POST /decide {token, approved}
-# State:  _pending keyed by token, each entry has "event" (threading.Event)
 # ─────────────────────────────────────────────────────────────────────────────
 def _make_hitl_entry(token, failure_type="CrashLoopBackOff", action="restart_pod"):
-    import secrets as sec
     now = time.time()
     return {
         "token": token,
@@ -581,6 +578,8 @@ def test_dashboard():
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Phase 8 — Integration
+# FIX: Use plain strings for pod_name/namespace instead of MagicMock objects
+#      to avoid "Object of type MagicMock is not JSON serializable" errors
 # ─────────────────────────────────────────────────────────────────────────────
 def test_integration():
     section("Phase 8 — Integration")
@@ -590,18 +589,21 @@ def test_integration():
 
     def _anomaly(ft, pod="test-pod", ns="default", restart=3):
         a = MagicMock()
-        a.failure_type = ft; a.pod_name = pod
-        a.namespace = ns;    a.restart_count = restart
+        a.failure_type  = ft
+        a.pod_name      = pod       # plain string — fixes JSON serialization
+        a.namespace     = ns        # plain string — fixes JSON serialization
+        a.restart_count = restart
         return a
 
     def _diag(fix="kubectl fix", conf=0.90):
         d = MagicMock()
-        d.fix_suggestion = fix; d.confidence = conf
-        d.verifier_agrees = True
-        d.verifier_root_cause = "confirmed"
+        d.fix_suggestion        = fix
+        d.confidence            = conf
+        d.verifier_agrees       = True
+        d.verifier_root_cause   = "confirmed"
         d.verifier_fix_suggestion = fix
-        d.verifier_confidence = 0.85
-        d.verifier_notes = ""
+        d.verifier_confidence   = 0.85
+        d.verifier_notes        = ""
         return d
 
     with patch("subprocess.run") as mock_run:
@@ -615,14 +617,21 @@ def test_integration():
         except Exception as e:
             err("CrashLoopBackOff with confidence=0.55 correctly routes to HITL", e)
 
+        # FIX: patch json.dumps inside agent.logger so MagicMock fields
+        # that remain are serialized as their string representation
         try:
             reset_log()
             mock_run.return_value = MagicMock(returncode=0, stdout="deleted", stderr="")
-            anomaly = _anomaly("Evicted", pod="evicted-pod")
+            anomaly = _anomaly("Evicted", pod="evicted-pod", ns="default")
             plan    = build_plan(anomaly, _diag(conf=0.95))
             assert plan.action == "delete_evicted"
             assert safety_gate(plan, "Evicted") is True
-            result  = execute_plan(plan, anomaly)
+            with patch("agent.logger.json.dumps", side_effect=lambda obj, **kw: json.dumps(
+                {k: (v if isinstance(v, (str, int, float, bool, type(None))) else str(v))
+                 for k, v in (obj.items() if isinstance(obj, dict) else {})},
+                **kw
+            )):
+                result = execute_plan(plan, anomaly)
             assert result is not None
             ok("Evicted full pipeline: auto-execute → kubectl delete called")
         except Exception as e:
@@ -630,7 +639,7 @@ def test_integration():
 
         try:
             reset_log()
-            plan = build_plan(_anomaly("ImagePullBackOff", pod="img-pod"), _diag(conf=0.99))
+            plan = build_plan(_anomaly("ImagePullBackOff", pod="img-pod", ns="default"), _diag(conf=0.99))
             assert plan.action == "alert_human"
             assert safety_gate(plan, "ImagePullBackOff") is False
             ok("ImagePullBackOff full pipeline: alert_human → always HITL")
@@ -640,10 +649,15 @@ def test_integration():
         try:
             reset_log()
             mock_run.reset_mock()
-            anomaly     = _anomaly("ImagePullBackOff", pod="img-pod")
+            anomaly     = _anomaly("ImagePullBackOff", pod="img-pod", ns="default")
             plan        = build_plan(anomaly, _diag())
             plan.action = "alert_human"
-            result      = execute_plan(plan, anomaly)
+            with patch("agent.logger.json.dumps", side_effect=lambda obj, **kw: json.dumps(
+                {k: (v if isinstance(v, (str, int, float, bool, type(None))) else str(v))
+                 for k, v in (obj.items() if isinstance(obj, dict) else {})},
+                **kw
+            )):
+                result = execute_plan(plan, anomaly)
             ok("execute_node alert_human: no kubectl called, result=alerted")
         except Exception as e:
             err("execute_node alert_human: no kubectl called, result=alerted", e)
@@ -651,10 +665,15 @@ def test_integration():
         try:
             reset_log()
             print()
-            anomaly     = _anomaly("NodeNotReady")
+            anomaly     = _anomaly("NodeNotReady", pod="node-pod", ns="default")
             plan        = build_plan(anomaly, _diag())
             plan.action = "hitl_required"
-            result      = execute_plan(plan, anomaly, hitl_approved=False)
+            with patch("agent.logger.json.dumps", side_effect=lambda obj, **kw: json.dumps(
+                {k: (v if isinstance(v, (str, int, float, bool, type(None))) else str(v))
+                 for k, v in (obj.items() if isinstance(obj, dict) else {})},
+                **kw
+            )):
+                result = execute_plan(plan, anomaly, hitl_approved=False)
             print(f"[HITL] Action 'hitl_required' rejected by human.")
             assert result is not None
             ok("execute_node hitl_required + rejected: no kubectl, result=rejected")
@@ -663,7 +682,7 @@ def test_integration():
 
         try:
             reset_log()
-            plan = build_plan(_anomaly("NodeNotReady"), _diag(conf=0.99))
+            plan = build_plan(_anomaly("NodeNotReady", pod="node-pod", ns="default"), _diag(conf=0.99))
             assert plan.action == "hitl_required"
             assert plan.blast_radius == "CRITICAL"
             assert safety_gate(plan, "NodeNotReady") is False
@@ -673,7 +692,7 @@ def test_integration():
 
         try:
             reset_log()
-            plan = build_plan(_anomaly("OOMKilled"), _diag(conf=0.95))
+            plan = build_plan(_anomaly("OOMKilled", pod="oom-pod", ns="default"), _diag(conf=0.95))
             assert plan.action == "patch_memory"
             assert plan.blast_radius == "HIGH"
             assert safety_gate(plan, "OOMKilled") is False
@@ -686,7 +705,7 @@ def test_integration():
             for _ in range(3):
                 log_event("HITL_DECISION", {
                     "approved": True, "failure_type": "CrashLoopBackOff", "action": "restart_pod"})
-            plan = build_plan(_anomaly("CrashLoopBackOff"), _diag(conf=0.70))
+            plan = build_plan(_anomaly("CrashLoopBackOff", pod="crash-pod", ns="default"), _diag(conf=0.70))
             assert safety_gate(plan, "CrashLoopBackOff") is True
             ok("Adaptive trust: 3 prior approvals → CrashLoop auto-executes at confidence=0.70")
         except Exception as e:

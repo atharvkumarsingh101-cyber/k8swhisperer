@@ -1,3 +1,4 @@
+# agent/graph.py
 import time
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
@@ -23,7 +24,10 @@ def detect_node(state):
     anomalies = detect_failures(latest["pods"])
     anomalies += detect_node_issues(latest["nodes"].get("items", []))
     anomalies += detect_deployment_stall(latest["deployments"])
-    log_event("DETECT", {"pod": "cluster", "summary": str(len(anomalies)) + " anomalies found"})
+    log_event("DETECT", {
+        "pod": "cluster",
+        "summary": str(len(anomalies)) + " anomalies found",
+    })
     current = anomalies[0] if anomalies else None
     return {"anomalies": anomalies, "current_anomaly": current}
 
@@ -33,8 +37,8 @@ def diagnose_node(state):
     anomaly = state["current_anomaly"]
     if not anomaly:
         return {"diagnosis": "no anomaly"}
-    result = diagnose(anomaly.pod_name, anomaly.namespace, anomaly.failure_type)
-    log_event("DIAGNOSE", {"pod": anomaly.pod_name, "root_cause": result.root_cause})
+    result = diagnose(anomaly.pod, anomaly.namespace, anomaly.failure_type)
+    log_event("DIAGNOSE", {"pod": anomaly.pod, "root_cause": result.root_cause})
     plan = build_plan(anomaly, result)
     return {"diagnosis": result.root_cause, "plan": plan}
 
@@ -44,7 +48,7 @@ def safety_gate_node(state):
     plan = state.get("plan")
     if not plan:
         return {"approved": False}
-    # Pass failure_type as required by the fixed safety_gate signature
+    # plan.failure_type exists on executor's RemediationPlan (Bug 1 now fixed)
     auto = safety_gate(plan, plan.failure_type)
     log_event("SAFETY_GATE", {
         "pod": plan.target_pod,
@@ -88,15 +92,17 @@ def execute_node(state):
     plan = state["plan"]
     anomaly = state["current_anomaly"]
     approved = state.get("approved", False)
-    result = execute_plan(plan, anomaly, hitl_approved=approved)
-    return {"result": result}
+    # FIX Bug 5: execute_plan returns a dict; extract the "result" string from it
+    # so state["result"] is a plain string, not a nested dict.
+    outcome = execute_plan(plan, anomaly, hitl_approved=approved)
+    return {"result": outcome.get("result", "unknown")}  # FIX: was return {"result": outcome}
 
 
 def done_node(state):
     print("[GRAPH] done_node")
     log_event("CYCLE_COMPLETE", {
         "pod": "cluster",
-        "result": str(state.get("result", "n/a")),
+        "result": str(state.get("result", "n/a")),  # now correctly a plain string
     })
     return {}
 
@@ -130,10 +136,19 @@ def build_graph():
     builder.add_node("done", done_node)
     builder.set_entry_point("observe")
     builder.add_edge("observe", "detect")
-    builder.add_conditional_edges("detect", route_after_detect, {"diagnose": "diagnose", "done": "done"})
+    builder.add_conditional_edges(
+        "detect", route_after_detect,
+        {"diagnose": "diagnose", "done": "done"}
+    )
     builder.add_edge("diagnose", "safety_gate")
-    builder.add_conditional_edges("safety_gate", route_after_safety, {"execute": "execute", "hitl_wait": "hitl_wait"})
-    builder.add_conditional_edges("hitl_wait", route_after_hitl, {"execute": "execute", "done": "done"})
+    builder.add_conditional_edges(
+        "safety_gate", route_after_safety,
+        {"execute": "execute", "hitl_wait": "hitl_wait"}
+    )
+    builder.add_conditional_edges(
+        "hitl_wait", route_after_hitl,
+        {"execute": "execute", "done": "done"}
+    )
     builder.add_edge("execute", "done")
     builder.add_edge("done", END)
     memory = MemorySaver()
