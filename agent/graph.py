@@ -1,9 +1,10 @@
+import time
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from agent.state import ClusterState
 from agent.monitor import get_all_pods, get_all_nodes, get_all_deployments
 from agent.detector import detect_failures, detect_node_issues, detect_deployment_stall
-from agent.diagnose import diagnose_anomaly
+from agent.diagnose import diagnose
 from agent.executor import build_plan, safety_gate, execute_plan
 from agent.logger import log_event
 
@@ -22,7 +23,7 @@ def detect_node(state):
     anomalies = detect_failures(latest["pods"])
     anomalies += detect_node_issues(latest["nodes"].get("items", []))
     anomalies += detect_deployment_stall(latest["deployments"])
-    log_event("DETECT", "cluster", str(len(anomalies)) + " anomalies found", {})
+    log_event("DETECT", {"pod": "cluster", "summary": str(len(anomalies)) + " anomalies found"})
     current = anomalies[0] if anomalies else None
     return {"anomalies": anomalies, "current_anomaly": current}
 
@@ -32,10 +33,10 @@ def diagnose_node(state):
     anomaly = state["current_anomaly"]
     if not anomaly:
         return {"diagnosis": "no anomaly"}
-    result = diagnose_anomaly(anomaly)
-    log_event("DIAGNOSE", anomaly.pod, result["root_cause"], result)
+    result = diagnose(anomaly.pod_name, anomaly.namespace, anomaly.failure_type)
+    log_event("DIAGNOSE", {"pod": anomaly.pod_name, "root_cause": result.root_cause})
     plan = build_plan(anomaly, result)
-    return {"diagnosis": result["root_cause"], "plan": plan}
+    return {"diagnosis": result.root_cause, "plan": plan}
 
 
 def safety_gate_node(state):
@@ -43,36 +44,60 @@ def safety_gate_node(state):
     plan = state.get("plan")
     if not plan:
         return {"approved": False}
-    auto = safety_gate(plan)
-    log_event("SAFETY_GATE", plan.target_pod, "Auto=" + str(auto), {})
+    # Pass failure_type as required by the fixed safety_gate signature
+    auto = safety_gate(plan, plan.failure_type)
+    log_event("SAFETY_GATE", {
+        "pod": plan.target_pod,
+        "action": plan.action,
+        "blast_radius": plan.blast_radius,
+        "confidence": plan.confidence,
+        "decision": "AUTO" if auto else "HITL",
+    })
     return {"approved": auto}
 
 
 def hitl_wait_node(state):
-    print("[GRAPH] hitl_wait_node - opening browser for approval...")
+    print("[GRAPH] hitl_wait_node - waiting for human approval...")
     plan = state["plan"]
-    log_event("HITL_REQUESTED", plan.target_pod, "Waiting for approval: " + plan.action, {})
-    from hitl_server import request_approval
-    approved = request_approval("run-1", {
+    log_event("HITL_REQUESTED", {
         "pod": plan.target_pod,
         "action": plan.action,
         "blast_radius": plan.blast_radius,
-        "diagnosis": state["diagnosis"],
+        "failure_type": plan.failure_type,
     })
-    log_event("HITL_DECISION", plan.target_pod, "Decision: " + str(approved), {})
+    from hitl_server import request_approval
+    approved = request_approval(plan.target_pod, {
+        "pod_name": plan.target_pod,
+        "namespace": plan.target_namespace,
+        "failure_type": plan.failure_type,
+        "action": plan.action,
+        "blast_radius": plan.blast_radius,
+        "confidence": plan.confidence,
+        "diagnosis": state.get("diagnosis", ""),
+    })
+    log_event("HITL_DECISION", {
+        "pod": plan.target_pod,
+        "action": plan.action,
+        "approved": approved,
+    })
     return {"approved": approved}
 
 
 def execute_node(state):
     print("[GRAPH] execute_node")
     plan = state["plan"]
-    result = execute_plan(plan)
+    anomaly = state["current_anomaly"]
+    approved = state.get("approved", False)
+    result = execute_plan(plan, anomaly, hitl_approved=approved)
     return {"result": result}
 
 
 def done_node(state):
     print("[GRAPH] done_node")
-    log_event("CYCLE_COMPLETE", "cluster", "Result: " + str(state.get("result", "n/a")), {})
+    log_event("CYCLE_COMPLETE", {
+        "pod": "cluster",
+        "result": str(state.get("result", "n/a")),
+    })
     return {}
 
 
@@ -116,3 +141,32 @@ def build_graph():
 
 
 graph = build_graph()
+
+
+# ---------------------------------------------------------------------------
+# Continuous monitoring loop
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    print("[AGENT] K8sWhisperer starting — monitoring every 20 seconds...")
+    print("[AGENT] Press Ctrl+C to stop.\n")
+    config = {"configurable": {"thread_id": "main"}}
+    cycle = 0
+    while True:
+        cycle += 1
+        print(f"\n[AGENT] ── Cycle {cycle} ──────────────────────────────")
+        try:
+            graph.invoke({
+                "events": [],
+                "anomalies": [],
+                "current_anomaly": None,
+                "diagnosis": "",
+                "plan": None,
+                "approved": False,
+                "result": None,
+            }, config=config)
+        except Exception as exc:
+            print(f"[AGENT] ERROR in cycle {cycle}: {exc}")
+            log_event("AGENT_ERROR", {"error": str(exc), "cycle": cycle})
+        print(f"[AGENT] Cycle {cycle} complete. Sleeping 20s...")
+        time.sleep(20)
